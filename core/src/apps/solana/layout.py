@@ -298,6 +298,14 @@ async def confirm_unsupported_program_confirm(
 ) -> None:
     title = f"{instruction_index}/{instructions_count}: {instruction.ui_name}"
 
+    # Show the program id as a property, not in the header where a long base58
+    # overflows the layout, so the user can identify the unknown program.
+    await confirm_properties(
+        "unsupported_program",
+        title,
+        ((TR.words__address, instruction.program_id, True),),
+    )
+
     return await confirm_unsupported_instruction_details(
         instruction, title, signer_path, signer_public_key
     )
