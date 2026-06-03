@@ -3786,6 +3786,153 @@
               "display_name": "Rent collector"
             }
           ]
+        },
+        {
+          "id": "program_config_init",
+          "name": "Program Config Init",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "authority",
+              "type": "pubkey",
+              "optional": false
+            },
+            {
+              "name": "multisig_creation_fee",
+              "type": "lamports",
+              "optional": false
+            },
+            {
+              "name": "treasury",
+              "type": "pubkey",
+              "optional": false
+            }
+          ],
+          "references": [
+            "program_config",
+            "initializer",
+            "system_program"
+          ],
+          "references_required": 3,
+          "ui_properties": [
+            {
+              "account": "program_config",
+              "display_name": "Initialize program config"
+            },
+            {
+              "parameter": "authority",
+              "display_name": "Authority"
+            },
+            {
+              "parameter": "multisig_creation_fee",
+              "display_name": "Multisig creation fee"
+            },
+            {
+              "parameter": "treasury",
+              "display_name": "Treasury"
+            },
+            {
+              "account": "initializer",
+              "display_name": "Initializer",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "program_config_set_authority",
+          "name": "Program Config Set Authority",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "new_authority",
+              "type": "pubkey",
+              "optional": false
+            }
+          ],
+          "references": [
+            "program_config",
+            "authority"
+          ],
+          "references_required": 2,
+          "ui_properties": [
+            {
+              "account": "program_config",
+              "display_name": "Set program config authority"
+            },
+            {
+              "parameter": "new_authority",
+              "display_name": "New authority"
+            },
+            {
+              "account": "authority",
+              "display_name": "Authority",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "program_config_set_multisig_creation_fee",
+          "name": "Program Config Set Multisig Creation Fee",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "new_multisig_creation_fee",
+              "type": "lamports",
+              "optional": false
+            }
+          ],
+          "references": [
+            "program_config",
+            "authority"
+          ],
+          "references_required": 2,
+          "ui_properties": [
+            {
+              "account": "program_config",
+              "display_name": "Set multisig creation fee"
+            },
+            {
+              "parameter": "new_multisig_creation_fee",
+              "display_name": "New multisig creation fee"
+            },
+            {
+              "account": "authority",
+              "display_name": "Authority",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "program_config_set_treasury",
+          "name": "Program Config Set Treasury",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "new_treasury",
+              "type": "pubkey",
+              "optional": false
+            }
+          ],
+          "references": [
+            "program_config",
+            "authority"
+          ],
+          "references_required": 2,
+          "ui_properties": [
+            {
+              "account": "program_config",
+              "display_name": "Set program config treasury"
+            },
+            {
+              "parameter": "new_treasury",
+              "display_name": "New treasury"
+            },
+            {
+              "account": "authority",
+              "display_name": "Authority",
+              "default_value_to_hide": "signer"
+            }
+          ]
         }
       ]
     }

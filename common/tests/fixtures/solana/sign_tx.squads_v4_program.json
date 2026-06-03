@@ -1011,6 +1011,115 @@
       "result": {
         "expected_signature": "6c74dbfd94e3459e2251edb7986ed28ebb4b7a769f66cc46d87fbb1259c756a8c1b66669d349a8d855d0f9964f8ffd99a4cccdb0f01a5f8db8d88782d1413c06"
       }
+    },
+    {
+      "description": "Program Config Init",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 3,
+              "accounts": { "program_config": 1, "initializer": 0, "system_program": 2 },
+              "data": { "instruction_id": 15597510107662302392, "authority": "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv", "multisig_creation_fee": 100000000, "treasury": "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq" }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "52214d532456ce7c760faf7c039d181e215af7a8894989aec4b93cfdb0e28094f9aeff49bd32225c85e97e0074d255cb15e4e0dcd711cd91d4ef7a1ce5b6d50d"
+      }
+    },
+    {
+      "description": "Program Config Set Authority",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 1 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 2,
+              "accounts": { "program_config": 1, "authority": 0 },
+              "data": { "instruction_id": 5465275518454919918, "new_authority": "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv" }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "561f32c27a6909fcc282dc99c3fc735cf1062ada8b410fedf5e707a7a926023dc57112c1ac45b5cdaccafa06658467a75f232f3e23297bc695d67098bb996a0c"
+      }
+    },
+    {
+      "description": "Program Config Set Multisig Creation Fee",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 1 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 2,
+              "accounts": { "program_config": 1, "authority": 0 },
+              "data": { "instruction_id": 980051451428053093, "new_multisig_creation_fee": 200000000 }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "9a42f18ef8237cfeca3bde2f3d1db77afe0786df8284b9be605d8e7e0cceed089a893545d7ff22b53c0ba70538bde2e863874d17d8bf8e520c60197998ca4903"
+      }
+    },
+    {
+      "description": "Program Config Set Treasury",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 1 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 2,
+              "accounts": { "program_config": 1, "authority": 0 },
+              "data": { "instruction_id": 7755968836925599343, "new_treasury": "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq" }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "ef1f2e6ad7ef6a28470137ff7eec0b0b5398cb32b5c8daa9f5222af1ba0ad3cdd73efe6305f002a5a4296e0ad25432cbb149a45c87b92c23fe07e8d2d1f3cd05"
+      }
     }
   ]
 }

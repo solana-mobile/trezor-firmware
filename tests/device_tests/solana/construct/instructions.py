@@ -1427,6 +1427,10 @@ class SquadsV4ProgramInstruction(Enum):
     VAULT_TRANSACTION_ACCOUNTS_CLOSE = 11937392256760891332
     VAULT_BATCH_TRANSACTION_ACCOUNT_CLOSE = 17825604122730238598
     BATCH_ACCOUNTS_CLOSE = 18377895415883744474
+    PROGRAM_CONFIG_INIT = 15597510107662302392
+    PROGRAM_CONFIG_SET_AUTHORITY = 5465275518454919918
+    PROGRAM_CONFIG_SET_MULTISIG_CREATION_FEE = 980051451428053093
+    PROGRAM_CONFIG_SET_TREASURY = 7755968836925599343
 
 
 SquadsV4Program_ProposalCreate = Struct(
@@ -1893,6 +1897,65 @@ SquadsV4Program_BatchAccountsClose = Struct(
     ),
 )
 
+SquadsV4Program_ProgramConfigInit = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "program_config" / Byte,
+        "initializer" / Byte,
+        "system_program" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(15597510107662302392, Int64ul),
+        "authority" / PublicKey,
+        "multisig_creation_fee" / Int64ul,
+        "treasury" / PublicKey,
+    ),
+)
+
+SquadsV4Program_ProgramConfigSetAuthority = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "program_config" / Byte,
+        "authority" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(5465275518454919918, Int64ul),
+        "new_authority" / PublicKey,
+    ),
+)
+
+SquadsV4Program_ProgramConfigSetMultisigCreationFee = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "program_config" / Byte,
+        "authority" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(980051451428053093, Int64ul),
+        "new_multisig_creation_fee" / Int64ul,
+    ),
+)
+
+SquadsV4Program_ProgramConfigSetTreasury = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "program_config" / Byte,
+        "authority" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(7755968836925599343, Int64ul),
+        "new_treasury" / PublicKey,
+    ),
+)
+
 
 SquadsV4Program_Instruction = Select(
     SquadsV4Program_ProposalCreate,
@@ -1922,6 +1985,10 @@ SquadsV4Program_Instruction = Select(
     SquadsV4Program_VaultTransactionAccountsClose,
     SquadsV4Program_VaultBatchTransactionAccountClose,
     SquadsV4Program_BatchAccountsClose,
+    SquadsV4Program_ProgramConfigInit,
+    SquadsV4Program_ProgramConfigSetAuthority,
+    SquadsV4Program_ProgramConfigSetMultisigCreationFee,
+    SquadsV4Program_ProgramConfigSetTreasury,
 )
 
 # Squads V4 Program end

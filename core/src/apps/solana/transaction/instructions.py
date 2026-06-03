@@ -151,6 +151,12 @@ _SQUADS_V4_PROGRAM_ID_INS_VAULT_BATCH_TRANSACTION_ACCOUNT_CLOSE = const(
     17825604122730238598
 )
 _SQUADS_V4_PROGRAM_ID_INS_BATCH_ACCOUNTS_CLOSE = const(18377895415883744474)
+_SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_INIT = const(15597510107662302392)
+_SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_AUTHORITY = const(5465275518454919918)
+_SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_MULTISIG_CREATION_FEE = const(
+    980051451428053093
+)
+_SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_TREASURY = const(7755968836925599343)
 
 COMPUTE_BUDGET_PROGRAM_ID = _COMPUTE_BUDGET_PROGRAM_ID
 COMPUTE_BUDGET_PROGRAM_ID_INS_SET_COMPUTE_UNIT_LIMIT = (
@@ -480,6 +486,26 @@ def __getattr__(name: str) -> Type[Instruction]:
             return (
                 _SQUADS_V4_PROGRAM_ID,
                 _SQUADS_V4_PROGRAM_ID_INS_BATCH_ACCOUNTS_CLOSE,
+            )
+        if name == "SquadsV4ProgramProgramConfigInitInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_INIT,
+            )
+        if name == "SquadsV4ProgramProgramConfigSetAuthorityInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_AUTHORITY,
+            )
+        if name == "SquadsV4ProgramProgramConfigSetMultisigCreationFeeInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_MULTISIG_CREATION_FEE,
+            )
+        if name == "SquadsV4ProgramProgramConfigSetTreasuryInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_TREASURY,
             )
         raise AttributeError  # Unknown instruction
 
@@ -1252,6 +1278,33 @@ if TYPE_CHECKING:
         batch: Account
         rent_collector: Account
         system_program: Account
+
+    class SquadsV4ProgramProgramConfigInitInstruction(Instruction):
+        authority: Account
+        multisig_creation_fee: int
+        treasury: Account
+
+        program_config: Account
+        initializer: Account
+        system_program: Account
+
+    class SquadsV4ProgramProgramConfigSetAuthorityInstruction(Instruction):
+        new_authority: Account
+
+        program_config: Account
+        authority: Account
+
+    class SquadsV4ProgramProgramConfigSetMultisigCreationFeeInstruction(Instruction):
+        new_multisig_creation_fee: int
+
+        program_config: Account
+        authority: Account
+
+    class SquadsV4ProgramProgramConfigSetTreasuryInstruction(Instruction):
+        new_treasury: Account
+
+        program_config: Account
+        authority: Account
 
 
 def get_instruction_id_length(program_id: str) -> int:
@@ -6488,6 +6541,211 @@ def get_instruction(
                     ),
                 ),
                 "Squads V4 Program: Batch Accounts Close",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_INIT:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_INIT,
+                (
+                    PropertyTemplate(
+                        "authority",
+                        False,
+                        parse_pubkey,
+                        format_pubkey,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "multisig_creation_fee",
+                        False,
+                        read_uint64_le,
+                        format_lamports,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "treasury",
+                        False,
+                        parse_pubkey,
+                        format_pubkey,
+                        (),
+                    ),
+                ),
+                3,
+                ("program_config", "initializer", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "program_config",
+                        "Initialize program config",
+                        None,
+                    ),
+                    UIProperty(
+                        "authority",
+                        None,
+                        "Authority",
+                        None,
+                    ),
+                    UIProperty(
+                        "multisig_creation_fee",
+                        None,
+                        "Multisig creation fee",
+                        None,
+                    ),
+                    UIProperty(
+                        "treasury",
+                        None,
+                        "Treasury",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "initializer",
+                        "Initializer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Program Config Init",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_AUTHORITY:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_AUTHORITY,
+                (
+                    PropertyTemplate(
+                        "new_authority",
+                        False,
+                        parse_pubkey,
+                        format_pubkey,
+                        (),
+                    ),
+                ),
+                2,
+                ("program_config", "authority"),
+                (
+                    UIProperty(
+                        None,
+                        "program_config",
+                        "Set program config authority",
+                        None,
+                    ),
+                    UIProperty(
+                        "new_authority",
+                        None,
+                        "New authority",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "authority",
+                        "Authority",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Program Config Set Authority",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if (
+            instruction_id
+            == _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_MULTISIG_CREATION_FEE
+        ):
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_MULTISIG_CREATION_FEE,
+                (
+                    PropertyTemplate(
+                        "new_multisig_creation_fee",
+                        False,
+                        read_uint64_le,
+                        format_lamports,
+                        (),
+                    ),
+                ),
+                2,
+                ("program_config", "authority"),
+                (
+                    UIProperty(
+                        None,
+                        "program_config",
+                        "Set multisig creation fee",
+                        None,
+                    ),
+                    UIProperty(
+                        "new_multisig_creation_fee",
+                        None,
+                        "New multisig creation fee",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "authority",
+                        "Authority",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Program Config Set Multisig Creation Fee",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_TREASURY:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_PROGRAM_CONFIG_SET_TREASURY,
+                (
+                    PropertyTemplate(
+                        "new_treasury",
+                        False,
+                        parse_pubkey,
+                        format_pubkey,
+                        (),
+                    ),
+                ),
+                2,
+                ("program_config", "authority"),
+                (
+                    UIProperty(
+                        None,
+                        "program_config",
+                        "Set program config treasury",
+                        None,
+                    ),
+                    UIProperty(
+                        "new_treasury",
+                        None,
+                        "New treasury",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "authority",
+                        "Authority",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Program Config Set Treasury",
                 True,
                 True,
                 False,
