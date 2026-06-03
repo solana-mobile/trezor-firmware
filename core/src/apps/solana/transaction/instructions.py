@@ -131,6 +131,8 @@ _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_CHANGE_THRESHOLD = const(13059977852455168653
 _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_TIME_LOCK = const(5232055579907299988)
 _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_CONFIG_AUTHORITY = const(16771872702318730639)
 _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_RENT_COLLECTOR = const(5376249923891219504)
+_SQUADS_V4_PROGRAM_ID_INS_SPENDING_LIMIT_USE = const(9699369043772979472)
+_SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_SPENDING_LIMIT = const(8192615600339076836)
 
 COMPUTE_BUDGET_PROGRAM_ID = _COMPUTE_BUDGET_PROGRAM_ID
 COMPUTE_BUDGET_PROGRAM_ID_INS_SET_COMPUTE_UNIT_LIMIT = (
@@ -401,6 +403,13 @@ def __getattr__(name: str) -> Type[Instruction]:
             return (
                 _SQUADS_V4_PROGRAM_ID,
                 _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_RENT_COLLECTOR,
+            )
+        if name == "SquadsV4ProgramSpendingLimitUseInstruction":
+            return (_SQUADS_V4_PROGRAM_ID, _SQUADS_V4_PROGRAM_ID_INS_SPENDING_LIMIT_USE)
+        if name == "SquadsV4ProgramMultisigRemoveSpendingLimitInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_SPENDING_LIMIT,
             )
         raise AttributeError  # Unknown instruction
 
@@ -1046,6 +1055,30 @@ if TYPE_CHECKING:
         config_authority: Account
         rent_payer: Account | None
         system_program: Account | None
+
+    class SquadsV4ProgramSpendingLimitUseInstruction(Instruction):
+        amount: int
+        decimals: int
+        memo: str
+
+        multisig: Account
+        member: Account
+        spending_limit: Account
+        vault: Account
+        destination: Account
+        system_program: Account | None
+        mint: Account | None
+        vault_token_account: Account | None
+        destination_token_account: Account | None
+        token_program: Account | None
+
+    class SquadsV4ProgramMultisigRemoveSpendingLimitInstruction(Instruction):
+        memo: str
+
+        multisig: Account
+        config_authority: Account
+        spending_limit: Account
+        rent_collector: Account
 
 
 def get_instruction_id_length(program_id: str) -> int:
@@ -5434,6 +5467,149 @@ def get_instruction(
                     ),
                 ),
                 "Squads V4 Program: Multisig Set Rent Collector",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_SPENDING_LIMIT_USE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_SPENDING_LIMIT_USE,
+                (
+                    PropertyTemplate(
+                        "amount",
+                        False,
+                        read_uint64_le,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "decimals",
+                        False,
+                        parse_byte,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                5,
+                (
+                    "multisig",
+                    "member",
+                    "spending_limit",
+                    "vault",
+                    "destination",
+                    "system_program",
+                    "mint",
+                    "vault_token_account",
+                    "destination_token_account",
+                    "token_program",
+                ),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "spending_limit",
+                        "Spending limit",
+                        None,
+                    ),
+                    UIProperty(
+                        "amount",
+                        None,
+                        "Amount",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "destination",
+                        "To",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "vault",
+                        "From vault",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "member",
+                        "Member",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Spending Limit Use",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_SPENDING_LIMIT:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_SPENDING_LIMIT,
+                (
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                4,
+                ("multisig", "config_authority", "spending_limit", "rent_collector"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "spending_limit",
+                        "Remove spending limit",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "config_authority",
+                        "Config authority",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_collector",
+                        "Rent collector",
+                        None,
+                    ),
+                ),
+                "Squads V4 Program: Multisig Remove Spending Limit",
                 True,
                 True,
                 False,

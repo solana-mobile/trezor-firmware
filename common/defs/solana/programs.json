@@ -3183,6 +3183,110 @@
               "default_value_to_hide": "signer"
             }
           ]
+        },
+        {
+          "id": "spending_limit_use",
+          "name": "Spending Limit Use",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "amount",
+              "type": "u64",
+              "optional": false
+            },
+            {
+              "name": "decimals",
+              "type": "u8",
+              "optional": false
+            },
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "member",
+            "spending_limit",
+            "vault",
+            "destination",
+            "system_program",
+            "mint",
+            "vault_token_account",
+            "destination_token_account",
+            "token_program"
+          ],
+          "references_required": 5,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "spending_limit",
+              "display_name": "Spending limit"
+            },
+            {
+              "parameter": "amount",
+              "display_name": "Amount"
+            },
+            {
+              "account": "destination",
+              "display_name": "To"
+            },
+            {
+              "account": "vault",
+              "display_name": "From vault"
+            },
+            {
+              "account": "member",
+              "display_name": "Member",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "multisig_remove_spending_limit",
+          "name": "Multisig Remove Spending Limit",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "config_authority",
+            "spending_limit",
+            "rent_collector"
+          ],
+          "references_required": 4,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "spending_limit",
+              "display_name": "Remove spending limit"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "config_authority",
+              "display_name": "Config authority",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_collector",
+              "display_name": "Rent collector"
+            }
+          ]
         }
       ]
     }

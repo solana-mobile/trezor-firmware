@@ -605,6 +605,78 @@
       "result": {
         "expected_signature": "6d3881461b8a6aaa70934dd81c5bfab76613dbabe78d2d116e979d3640162e87df2243530adddecb12687788583caf68344069f0f6bf67af32f9cba1d044d701"
       }
+    },
+    {
+      "description": "Spending Limit Use",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 3 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "5RrkX8MTGiSJrqyu7tCcMo3jXf3jxshfeYecHGYojBfV",
+            "EuP1MZP1Y2GMS4PYpqXKzhTcW6QmDJzs7M6w7Mz9zV3F",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 6,
+              "accounts": {
+                "multisig": 4,
+                "member": 0,
+                "spending_limit": 3,
+                "vault": 1,
+                "destination": 2,
+                "system_program": 5
+              },
+              "data": {
+                "instruction_id": 9699369043772979472,
+                "amount": 1000000,
+                "decimals": 6,
+                "memo": { "is_included": 0 }
+              }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "100337575d64a796d1cb19c1386249217a76de81532c586e3f4e4baaa5abe4306b625d37d0d2ff82fa27b81c69dcd38db9a4854686b251676fca740650b7410e"
+      }
+    },
+    {
+      "description": "Multisig Remove Spending Limit",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 4,
+              "accounts": { "multisig": 3, "config_authority": 0, "spending_limit": 1, "rent_collector": 2 },
+              "data": { "instruction_id": 8192615600339076836, "memo": { "is_included": 0 } }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "e6609b88eacc26bfa47332cf457d08a2148888b5b47ce16c9846448f8cbb64513f54beb675d18cf1b00a073c9458b8f900664fa29e3290c577d0a2cfee032f00"
+      }
     }
   ]
 }

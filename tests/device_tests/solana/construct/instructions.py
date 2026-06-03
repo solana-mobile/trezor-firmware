@@ -1413,6 +1413,8 @@ class SquadsV4ProgramInstruction(Enum):
     MULTISIG_SET_TIME_LOCK = 5232055579907299988
     MULTISIG_SET_CONFIG_AUTHORITY = 16771872702318730639
     MULTISIG_SET_RENT_COLLECTOR = 5376249923891219504
+    SPENDING_LIMIT_USE = 9699369043772979472
+    MULTISIG_REMOVE_SPENDING_LIMIT = 8192615600339076836
 
 
 SquadsV4Program_ProposalCreate = Struct(
@@ -1648,6 +1650,46 @@ SquadsV4Program_MultisigSetRentCollector = Struct(
     ),
 )
 
+SquadsV4Program_SpendingLimitUse = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "member" / Byte,
+        "spending_limit" / Byte,
+        "vault" / Byte,
+        "destination" / Byte,
+        "system_program" / Optional(Byte),
+        "mint" / Optional(Byte),
+        "vault_token_account" / Optional(Byte),
+        "destination_token_account" / Optional(Byte),
+        "token_program" / Optional(Byte),
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(9699369043772979472, Int64ul),
+        "amount" / Int64ul,
+        "decimals" / Byte,
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
+SquadsV4Program_MultisigRemoveSpendingLimit = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "config_authority" / Byte,
+        "spending_limit" / Byte,
+        "rent_collector" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(8192615600339076836, Int64ul),
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
 
 SquadsV4Program_Instruction = Select(
     SquadsV4Program_ProposalCreate,
@@ -1664,6 +1706,8 @@ SquadsV4Program_Instruction = Select(
     SquadsV4Program_MultisigSetTimeLock,
     SquadsV4Program_MultisigSetConfigAuthority,
     SquadsV4Program_MultisigSetRentCollector,
+    SquadsV4Program_SpendingLimitUse,
+    SquadsV4Program_MultisigRemoveSpendingLimit,
 )
 
 # Squads V4 Program end
