@@ -1410,6 +1410,9 @@ class SquadsV4ProgramInstruction(Enum):
     MULTISIG_ADD_MEMBER = 636948977582332673
     MULTISIG_REMOVE_MEMBER = 5249668530058655193
     MULTISIG_CHANGE_THRESHOLD = 13059977852455168653
+    MULTISIG_SET_TIME_LOCK = 5232055579907299988
+    MULTISIG_SET_CONFIG_AUTHORITY = 16771872702318730639
+    MULTISIG_SET_RENT_COLLECTOR = 5376249923891219504
 
 
 SquadsV4Program_ProposalCreate = Struct(
@@ -1594,6 +1597,57 @@ SquadsV4Program_MultisigChangeThreshold = Struct(
     ),
 )
 
+SquadsV4Program_MultisigSetTimeLock = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "config_authority" / Byte,
+        "rent_payer" / Optional(Byte),
+        "system_program" / Optional(Byte),
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(5232055579907299988, Int64ul),
+        "time_lock" / Int32ul,
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
+SquadsV4Program_MultisigSetConfigAuthority = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "config_authority" / Byte,
+        "rent_payer" / Optional(Byte),
+        "system_program" / Optional(Byte),
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(16771872702318730639, Int64ul),
+        "new_config_authority" / PublicKey,
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
+SquadsV4Program_MultisigSetRentCollector = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "config_authority" / Byte,
+        "rent_payer" / Optional(Byte),
+        "system_program" / Optional(Byte),
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(5376249923891219504, Int64ul),
+        "rent_collector" / OptionalParameter(PublicKey),
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
 
 SquadsV4Program_Instruction = Select(
     SquadsV4Program_ProposalCreate,
@@ -1607,6 +1661,9 @@ SquadsV4Program_Instruction = Select(
     SquadsV4Program_MultisigAddMember,
     SquadsV4Program_MultisigRemoveMember,
     SquadsV4Program_MultisigChangeThreshold,
+    SquadsV4Program_MultisigSetTimeLock,
+    SquadsV4Program_MultisigSetConfigAuthority,
+    SquadsV4Program_MultisigSetRentCollector,
 )
 
 # Squads V4 Program end

@@ -128,6 +128,9 @@ _SQUADS_V4_PROGRAM_ID_INS_CONFIG_TRANSACTION_EXECUTE = const(2892591877825270386
 _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_ADD_MEMBER = const(636948977582332673)
 _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_MEMBER = const(5249668530058655193)
 _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_CHANGE_THRESHOLD = const(13059977852455168653)
+_SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_TIME_LOCK = const(5232055579907299988)
+_SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_CONFIG_AUTHORITY = const(16771872702318730639)
+_SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_RENT_COLLECTOR = const(5376249923891219504)
 
 COMPUTE_BUDGET_PROGRAM_ID = _COMPUTE_BUDGET_PROGRAM_ID
 COMPUTE_BUDGET_PROGRAM_ID_INS_SET_COMPUTE_UNIT_LIMIT = (
@@ -383,6 +386,21 @@ def __getattr__(name: str) -> Type[Instruction]:
             return (
                 _SQUADS_V4_PROGRAM_ID,
                 _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_CHANGE_THRESHOLD,
+            )
+        if name == "SquadsV4ProgramMultisigSetTimeLockInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_TIME_LOCK,
+            )
+        if name == "SquadsV4ProgramMultisigSetConfigAuthorityInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_CONFIG_AUTHORITY,
+            )
+        if name == "SquadsV4ProgramMultisigSetRentCollectorInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_RENT_COLLECTOR,
             )
         raise AttributeError  # Unknown instruction
 
@@ -995,6 +1013,33 @@ if TYPE_CHECKING:
 
     class SquadsV4ProgramMultisigChangeThresholdInstruction(Instruction):
         new_threshold: int
+        memo: str
+
+        multisig: Account
+        config_authority: Account
+        rent_payer: Account | None
+        system_program: Account | None
+
+    class SquadsV4ProgramMultisigSetTimeLockInstruction(Instruction):
+        time_lock: int
+        memo: str
+
+        multisig: Account
+        config_authority: Account
+        rent_payer: Account | None
+        system_program: Account | None
+
+    class SquadsV4ProgramMultisigSetConfigAuthorityInstruction(Instruction):
+        new_config_authority: Account
+        memo: str
+
+        multisig: Account
+        config_authority: Account
+        rent_payer: Account | None
+        system_program: Account | None
+
+    class SquadsV4ProgramMultisigSetRentCollectorInstruction(Instruction):
+        rent_collector: Account
         memo: str
 
         multisig: Account
@@ -5200,6 +5245,195 @@ def get_instruction(
                     ),
                 ),
                 "Squads V4 Program: Multisig Change Threshold",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_TIME_LOCK:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_TIME_LOCK,
+                (
+                    PropertyTemplate(
+                        "time_lock",
+                        False,
+                        read_uint32_le,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                2,
+                ("multisig", "config_authority", "rent_payer", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        "time_lock",
+                        None,
+                        "Time lock (seconds)",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "config_authority",
+                        "Config authority",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Multisig Set Time Lock",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_CONFIG_AUTHORITY:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_CONFIG_AUTHORITY,
+                (
+                    PropertyTemplate(
+                        "new_config_authority",
+                        False,
+                        parse_pubkey,
+                        format_pubkey,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                2,
+                ("multisig", "config_authority", "rent_payer", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        "new_config_authority",
+                        None,
+                        "New config authority",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "config_authority",
+                        "Current config authority",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Multisig Set Config Authority",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_RENT_COLLECTOR:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_RENT_COLLECTOR,
+                (
+                    PropertyTemplate(
+                        "rent_collector",
+                        True,
+                        parse_pubkey,
+                        format_pubkey,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                2,
+                ("multisig", "config_authority", "rent_payer", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        "rent_collector",
+                        None,
+                        "Rent collector",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "config_authority",
+                        "Config authority",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Multisig Set Rent Collector",
                 True,
                 True,
                 False,

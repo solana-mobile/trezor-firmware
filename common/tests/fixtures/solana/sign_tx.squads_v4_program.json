@@ -506,6 +506,105 @@
       "result": {
         "expected_signature": "7c26e114560ba566b5b9b518bae8bb3efd43625c8def9563d0601fee96c6e162c1a038fe1bdf9cdcdaf5fdb750bd35632a4951b93f88fefa3dd3f6d53e3bcb07"
       }
+    },
+    {
+      "description": "Multisig Set Time Lock",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 2, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 4,
+              "accounts": { "multisig": 2, "config_authority": 0, "rent_payer": 1, "system_program": 3 },
+              "data": {
+                "instruction_id": 5232055579907299988,
+                "time_lock": 86400,
+                "memo": { "is_included": 0 }
+              }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "30888c2cde89b4bc6506c15b9079f17e5b893b4a35a0202439a34bf79eacab4750554c34e9ea5f74523d035faabd2515d0dff886663dbf6a5cba7cdf6ec15e03"
+      }
+    },
+    {
+      "description": "Multisig Set Config Authority",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 2, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 4,
+              "accounts": { "multisig": 2, "config_authority": 0, "rent_payer": 1, "system_program": 3 },
+              "data": {
+                "instruction_id": 16771872702318730639,
+                "new_config_authority": "EuP1MZP1Y2GMS4PYpqXKzhTcW6QmDJzs7M6w7Mz9zV3F",
+                "memo": { "is_included": 0 }
+              }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "28f3e87e9170f720d0bce4fd7d4a6786d9d8373258ad9d8f255eaa88491771455a6cff42d859288bca000b559c66072cce6e0b891f7c5c9595af2e2cdb726602"
+      }
+    },
+    {
+      "description": "Multisig Set Rent Collector",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 2, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 4,
+              "accounts": { "multisig": 2, "config_authority": 0, "rent_payer": 1, "system_program": 3 },
+              "data": {
+                "instruction_id": 5376249923891219504,
+                "rent_collector": { "is_included": 1, "value": "EuP1MZP1Y2GMS4PYpqXKzhTcW6QmDJzs7M6w7Mz9zV3F" },
+                "memo": { "is_included": 0 }
+              }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "6d3881461b8a6aaa70934dd81c5bfab76613dbabe78d2d116e979d3640162e87df2243530adddecb12687788583caf68344069f0f6bf67af32f9cba1d044d701"
+      }
     }
   ]
 }

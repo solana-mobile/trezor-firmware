@@ -3039,6 +3039,150 @@
               "default_value_to_hide": "signer"
             }
           ]
+        },
+        {
+          "id": "multisig_set_time_lock",
+          "name": "Multisig Set Time Lock",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "time_lock",
+              "type": "u32",
+              "optional": false
+            },
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "config_authority",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 2,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "parameter": "time_lock",
+              "display_name": "Time lock (seconds)"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "config_authority",
+              "display_name": "Config authority",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "multisig_set_config_authority",
+          "name": "Multisig Set Config Authority",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "new_config_authority",
+              "type": "pubkey",
+              "optional": false
+            },
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "config_authority",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 2,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "parameter": "new_config_authority",
+              "display_name": "New config authority"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "config_authority",
+              "display_name": "Current config authority",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "multisig_set_rent_collector",
+          "name": "Multisig Set Rent Collector",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "rent_collector",
+              "type": "pubkey",
+              "optional": true
+            },
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "config_authority",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 2,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "parameter": "rent_collector",
+              "display_name": "Rent collector"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "config_authority",
+              "display_name": "Config authority",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
         }
       ]
     }
