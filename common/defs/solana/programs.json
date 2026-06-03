@@ -2886,6 +2886,159 @@
               "default_value_to_hide": "signer"
             }
           ]
+        },
+        {
+          "id": "multisig_add_member",
+          "name": "Multisig Add Member",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "new_member_key",
+              "type": "pubkey",
+              "optional": false
+            },
+            {
+              "name": "new_member_permissions",
+              "type": "u8",
+              "optional": false
+            },
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "config_authority",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 2,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "parameter": "new_member_key",
+              "display_name": "Add member"
+            },
+            {
+              "parameter": "new_member_permissions",
+              "display_name": "Permissions"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "config_authority",
+              "display_name": "Config authority",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "multisig_remove_member",
+          "name": "Multisig Remove Member",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "old_member",
+              "type": "pubkey",
+              "optional": false
+            },
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "config_authority",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 2,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "parameter": "old_member",
+              "display_name": "Remove member"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "config_authority",
+              "display_name": "Config authority",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "multisig_change_threshold",
+          "name": "Multisig Change Threshold",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "new_threshold",
+              "type": "u16",
+              "optional": false
+            },
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "config_authority",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 2,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "parameter": "new_threshold",
+              "display_name": "New threshold"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "config_authority",
+              "display_name": "Config authority",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
         }
       ]
     }
@@ -2898,6 +3051,10 @@
     "bool": {
       "parse": "parse_byte",
       "format": "format_bool"
+    },
+    "u16": {
+      "parse": "read_uint16_le",
+      "format": "format_int"
     },
     "u32": {
       "parse": "read_uint32_le",

@@ -406,6 +406,106 @@
       "result": {
         "expected_signature": "eaef8a1285b6814db8a206d24ee7dc4d2e7dddbaedd5bc36c413de24c86473c10838aba587fa0867c487278073636514ae36ff863c8fa957fbe6035dae49cf0a"
       }
+    },
+    {
+      "description": "Multisig Add Member",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 2, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 4,
+              "accounts": { "multisig": 2, "config_authority": 0, "rent_payer": 1, "system_program": 3 },
+              "data": {
+                "instruction_id": 636948977582332673,
+                "new_member_key": "5RrkX8MTGiSJrqyu7tCcMo3jXf3jxshfeYecHGYojBfV",
+                "new_member_permissions": 7,
+                "memo": { "is_included": 0 }
+              }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "b8d36b2cb7ce7e47852475a15b4fdcd6fbeca5981b517e5d152cbf0b0e7eb663f3630ed24660874316c214b6d24d62024da35abf5688257c62902373ded02d0f"
+      }
+    },
+    {
+      "description": "Multisig Remove Member",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 2, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 4,
+              "accounts": { "multisig": 2, "config_authority": 0, "rent_payer": 1, "system_program": 3 },
+              "data": {
+                "instruction_id": 5249668530058655193,
+                "old_member": "5RrkX8MTGiSJrqyu7tCcMo3jXf3jxshfeYecHGYojBfV",
+                "memo": { "is_included": 0 }
+              }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "258b5bc6d79011ce4212ce96f8cd1b948279e289727f363ad9cb37e871e9506f3c89f91865f5c52e30b7bf281873f1574523a0856b972336460c7aa79897c70a"
+      }
+    },
+    {
+      "description": "Multisig Change Threshold",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 2, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 4,
+              "accounts": { "multisig": 2, "config_authority": 0, "rent_payer": 1, "system_program": 3 },
+              "data": {
+                "instruction_id": 13059977852455168653,
+                "new_threshold": 2,
+                "memo": { "is_included": 0 }
+              }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "7c26e114560ba566b5b9b518bae8bb3efd43625c8def9563d0601fee96c6e162c1a038fe1bdf9cdcdaf5fdb750bd35632a4951b93f88fefa3dd3f6d53e3bcb07"
+      }
     }
   ]
 }

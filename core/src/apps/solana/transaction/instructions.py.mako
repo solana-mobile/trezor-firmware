@@ -12,7 +12,7 @@ def getInstructionIdText(program, instruction):
 def getClassName(program, instruction):
     return program["name"].replace(" ", "") + instruction["name"].replace(" ", "") + "Instruction"
 
-INT_TYPES = ("u8", "u32", "u64", "i32", "i64", "timestamp", "lamports", "token_amount", "unix_timestamp", "bool")
+INT_TYPES = ("u8", "u16", "u32", "u64", "i32", "i64", "timestamp", "lamports", "token_amount", "unix_timestamp", "bool")
 
 def getPythonType(type):
     if type in INT_TYPES:
@@ -43,7 +43,7 @@ from typing import TYPE_CHECKING
 
 from trezor.wire import DataError
 
-from apps.common.readers import read_uint32_le, read_uint64_le
+from apps.common.readers import read_uint16_le, read_uint32_le, read_uint64_le
 
 from ..types import PropertyTemplate, UIProperty
 from ..format import (

@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 from trezor.wire import DataError
 
-from apps.common.readers import read_uint32_le, read_uint64_le
+from apps.common.readers import read_uint16_le, read_uint32_le, read_uint64_le
 
 from ..format import (
     format_bool,
@@ -125,6 +125,9 @@ _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_CANCEL_V2 = const(17802883105040771533)
 _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_EXECUTE = const(12329066433410566338)
 _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE = const(15265763272730540592)
 _SQUADS_V4_PROGRAM_ID_INS_CONFIG_TRANSACTION_EXECUTE = const(2892591877825270386)
+_SQUADS_V4_PROGRAM_ID_INS_MULTISIG_ADD_MEMBER = const(636948977582332673)
+_SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_MEMBER = const(5249668530058655193)
+_SQUADS_V4_PROGRAM_ID_INS_MULTISIG_CHANGE_THRESHOLD = const(13059977852455168653)
 
 COMPUTE_BUDGET_PROGRAM_ID = _COMPUTE_BUDGET_PROGRAM_ID
 COMPUTE_BUDGET_PROGRAM_ID_INS_SET_COMPUTE_UNIT_LIMIT = (
@@ -365,6 +368,21 @@ def __getattr__(name: str) -> Type[Instruction]:
             return (
                 _SQUADS_V4_PROGRAM_ID,
                 _SQUADS_V4_PROGRAM_ID_INS_CONFIG_TRANSACTION_EXECUTE,
+            )
+        if name == "SquadsV4ProgramMultisigAddMemberInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_ADD_MEMBER,
+            )
+        if name == "SquadsV4ProgramMultisigRemoveMemberInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_MEMBER,
+            )
+        if name == "SquadsV4ProgramMultisigChangeThresholdInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_CHANGE_THRESHOLD,
             )
         raise AttributeError  # Unknown instruction
 
@@ -953,6 +971,34 @@ if TYPE_CHECKING:
         member: Account
         proposal: Account
         transaction: Account
+        rent_payer: Account | None
+        system_program: Account | None
+
+    class SquadsV4ProgramMultisigAddMemberInstruction(Instruction):
+        new_member_key: Account
+        new_member_permissions: int
+        memo: str
+
+        multisig: Account
+        config_authority: Account
+        rent_payer: Account | None
+        system_program: Account | None
+
+    class SquadsV4ProgramMultisigRemoveMemberInstruction(Instruction):
+        old_member: Account
+        memo: str
+
+        multisig: Account
+        config_authority: Account
+        rent_payer: Account | None
+        system_program: Account | None
+
+    class SquadsV4ProgramMultisigChangeThresholdInstruction(Instruction):
+        new_threshold: int
+        memo: str
+
+        multisig: Account
+        config_authority: Account
         rent_payer: Account | None
         system_program: Account | None
 
@@ -4952,6 +4998,208 @@ def get_instruction(
                     ),
                 ),
                 "Squads V4 Program: Config Transaction Execute",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_ADD_MEMBER:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_ADD_MEMBER,
+                (
+                    PropertyTemplate(
+                        "new_member_key",
+                        False,
+                        parse_pubkey,
+                        format_pubkey,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "new_member_permissions",
+                        False,
+                        parse_byte,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                2,
+                ("multisig", "config_authority", "rent_payer", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        "new_member_key",
+                        None,
+                        "Add member",
+                        None,
+                    ),
+                    UIProperty(
+                        "new_member_permissions",
+                        None,
+                        "Permissions",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "config_authority",
+                        "Config authority",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Multisig Add Member",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_MEMBER:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_MEMBER,
+                (
+                    PropertyTemplate(
+                        "old_member",
+                        False,
+                        parse_pubkey,
+                        format_pubkey,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                2,
+                ("multisig", "config_authority", "rent_payer", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        "old_member",
+                        None,
+                        "Remove member",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "config_authority",
+                        "Config authority",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Multisig Remove Member",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_CHANGE_THRESHOLD:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_CHANGE_THRESHOLD,
+                (
+                    PropertyTemplate(
+                        "new_threshold",
+                        False,
+                        read_uint16_le,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                2,
+                ("multisig", "config_authority", "rent_payer", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        "new_threshold",
+                        None,
+                        "New threshold",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "config_authority",
+                        "Config authority",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Multisig Change Threshold",
                 True,
                 True,
                 False,

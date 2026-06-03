@@ -8,6 +8,7 @@ from construct import (
     Const,
     GreedyBytes,
     GreedyRange,
+    Int16ul,
     Int32ul,
     Int64ul,
     Optional,
@@ -1406,6 +1407,9 @@ class SquadsV4ProgramInstruction(Enum):
     VAULT_TRANSACTION_EXECUTE = 12329066433410566338
     VAULT_TRANSACTION_CREATE = 15265763272730540592
     CONFIG_TRANSACTION_EXECUTE = 2892591877825270386
+    MULTISIG_ADD_MEMBER = 636948977582332673
+    MULTISIG_REMOVE_MEMBER = 5249668530058655193
+    MULTISIG_CHANGE_THRESHOLD = 13059977852455168653
 
 
 SquadsV4Program_ProposalCreate = Struct(
@@ -1538,6 +1542,58 @@ SquadsV4Program_ConfigTransactionExecute = Struct(
     ),
 )
 
+SquadsV4Program_MultisigAddMember = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "config_authority" / Byte,
+        "rent_payer" / Optional(Byte),
+        "system_program" / Optional(Byte),
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(636948977582332673, Int64ul),
+        "new_member_key" / PublicKey,
+        "new_member_permissions" / Byte,
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
+SquadsV4Program_MultisigRemoveMember = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "config_authority" / Byte,
+        "rent_payer" / Optional(Byte),
+        "system_program" / Optional(Byte),
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(5249668530058655193, Int64ul),
+        "old_member" / PublicKey,
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
+SquadsV4Program_MultisigChangeThreshold = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "config_authority" / Byte,
+        "rent_payer" / Optional(Byte),
+        "system_program" / Optional(Byte),
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(13059977852455168653, Int64ul),
+        "new_threshold" / Int16ul,
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
 
 SquadsV4Program_Instruction = Select(
     SquadsV4Program_ProposalCreate,
@@ -1548,6 +1604,9 @@ SquadsV4Program_Instruction = Select(
     SquadsV4Program_VaultTransactionExecute,
     SquadsV4Program_VaultTransactionCreate,
     SquadsV4Program_ConfigTransactionExecute,
+    SquadsV4Program_MultisigAddMember,
+    SquadsV4Program_MultisigRemoveMember,
+    SquadsV4Program_MultisigChangeThreshold,
 )
 
 # Squads V4 Program end
