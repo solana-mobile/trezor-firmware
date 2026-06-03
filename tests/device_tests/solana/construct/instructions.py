@@ -20,6 +20,7 @@ from construct import (
 from .custom_constructs import (
     BorshBytes,
     BorshString,
+    Bytes32,
     CompactArray,
     CompactStruct,
     HexStringAdapter,
@@ -1418,6 +1419,10 @@ class SquadsV4ProgramInstruction(Enum):
     BATCH_CREATE = 17876116467109170882
     BATCH_ADD_TRANSACTION = 5491654058108281945
     BATCH_EXECUTE_TRANSACTION = 13036371802110241964
+    TRANSACTION_BUFFER_CREATE = 6421358073665931765
+    TRANSACTION_BUFFER_EXTEND = 10589631805017791974
+    TRANSACTION_BUFFER_CLOSE = 7400004113956648465
+    VAULT_TRANSACTION_CREATE_FROM_BUFFER = 16659085876316681950
 
 
 SquadsV4Program_ProposalCreate = Struct(
@@ -1747,6 +1752,78 @@ SquadsV4Program_BatchExecuteTransaction = Struct(
     ),
 )
 
+SquadsV4Program_TransactionBufferCreate = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "transaction_buffer" / Byte,
+        "creator" / Byte,
+        "rent_payer" / Byte,
+        "system_program" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(6421358073665931765, Int64ul),
+        "buffer_index" / Byte,
+        "vault_index" / Byte,
+        "final_buffer_hash" / Bytes32,
+        "final_buffer_size" / Int16ul,
+        "buffer" / BorshBytes,
+    ),
+)
+
+SquadsV4Program_TransactionBufferExtend = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "transaction_buffer" / Byte,
+        "creator" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(10589631805017791974, Int64ul),
+        "buffer" / BorshBytes,
+    ),
+)
+
+SquadsV4Program_TransactionBufferClose = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "transaction_buffer" / Byte,
+        "creator" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(7400004113956648465, Int64ul),
+    ),
+)
+
+SquadsV4Program_VaultTransactionCreateFromBuffer = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "transaction" / Byte,
+        "creator" / Byte,
+        "rent_payer" / Byte,
+        "system_program" / Byte,
+        "transaction_buffer" / Byte,
+        "buffer_creator" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(16659085876316681950, Int64ul),
+        "vault_index" / Byte,
+        "ephemeral_signers" / Byte,
+        "transaction_message" / BorshBytes,
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
 
 SquadsV4Program_Instruction = Select(
     SquadsV4Program_ProposalCreate,
@@ -1768,6 +1845,10 @@ SquadsV4Program_Instruction = Select(
     SquadsV4Program_BatchCreate,
     SquadsV4Program_BatchAddTransaction,
     SquadsV4Program_BatchExecuteTransaction,
+    SquadsV4Program_TransactionBufferCreate,
+    SquadsV4Program_TransactionBufferExtend,
+    SquadsV4Program_TransactionBufferClose,
+    SquadsV4Program_VaultTransactionCreateFromBuffer,
 )
 
 # Squads V4 Program end

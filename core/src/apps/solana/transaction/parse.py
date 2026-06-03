@@ -52,6 +52,11 @@ def parse_borsh_bytes(serialized_tx: BufferReader) -> bytes:
     return bytes(serialized_tx.read_memoryview(length))
 
 
+def parse_bytes32(serialized_tx: BufferReader) -> bytes:
+    # A fixed 32-byte array (e.g. a hash), not length-prefixed.
+    return bytes(serialized_tx.read_memoryview(32))
+
+
 def parse_memo(serialized_tx: BufferReader) -> str:
     return bytes(serialized_tx.read_memoryview(serialized_tx.remaining_count())).decode(
         "utf-8"

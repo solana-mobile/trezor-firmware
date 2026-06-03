@@ -3436,6 +3436,223 @@
               "default_value_to_hide": "signer"
             }
           ]
+        },
+        {
+          "id": "transaction_buffer_create",
+          "name": "Transaction Buffer Create",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "buffer_index",
+              "type": "u8",
+              "optional": false
+            },
+            {
+              "name": "vault_index",
+              "type": "u8",
+              "optional": false
+            },
+            {
+              "name": "final_buffer_hash",
+              "type": "bytes32",
+              "optional": false
+            },
+            {
+              "name": "final_buffer_size",
+              "type": "u16",
+              "optional": false
+            },
+            {
+              "name": "buffer",
+              "type": "borsh_bytes",
+              "optional": false
+            }
+          ],
+          "references": [
+            "multisig",
+            "transaction_buffer",
+            "creator",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 5,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "transaction_buffer",
+              "display_name": "Create transaction buffer"
+            },
+            {
+              "parameter": "buffer_index",
+              "display_name": "Buffer index"
+            },
+            {
+              "parameter": "vault_index",
+              "display_name": "Vault index"
+            },
+            {
+              "parameter": "final_buffer_hash",
+              "display_name": "Final buffer hash"
+            },
+            {
+              "parameter": "final_buffer_size",
+              "display_name": "Final buffer size"
+            },
+            {
+              "parameter": "buffer",
+              "display_name": "Buffer"
+            },
+            {
+              "account": "creator",
+              "display_name": "Creator",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "transaction_buffer_extend",
+          "name": "Transaction Buffer Extend",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "buffer",
+              "type": "borsh_bytes",
+              "optional": false
+            }
+          ],
+          "references": [
+            "multisig",
+            "transaction_buffer",
+            "creator"
+          ],
+          "references_required": 3,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "transaction_buffer",
+              "display_name": "Extend transaction buffer"
+            },
+            {
+              "parameter": "buffer",
+              "display_name": "Buffer"
+            },
+            {
+              "account": "creator",
+              "display_name": "Creator",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "transaction_buffer_close",
+          "name": "Transaction Buffer Close",
+          "is_multisig": false,
+          "parameters": [],
+          "references": [
+            "multisig",
+            "transaction_buffer",
+            "creator"
+          ],
+          "references_required": 3,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "transaction_buffer",
+              "display_name": "Close transaction buffer"
+            },
+            {
+              "account": "creator",
+              "display_name": "Creator",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "vault_transaction_create_from_buffer",
+          "name": "Vault Transaction Create From Buffer",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "vault_index",
+              "type": "u8",
+              "optional": false
+            },
+            {
+              "name": "ephemeral_signers",
+              "type": "u8",
+              "optional": false
+            },
+            {
+              "name": "transaction_message",
+              "type": "borsh_bytes",
+              "optional": false
+            },
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "transaction",
+            "creator",
+            "rent_payer",
+            "system_program",
+            "transaction_buffer",
+            "buffer_creator"
+          ],
+          "references_required": 7,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "transaction",
+              "display_name": "Create vault transaction"
+            },
+            {
+              "account": "transaction_buffer",
+              "display_name": "From transaction buffer"
+            },
+            {
+              "parameter": "vault_index",
+              "display_name": "Vault index"
+            },
+            {
+              "parameter": "ephemeral_signers",
+              "display_name": "Ephemeral signers"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "creator",
+              "display_name": "Creator",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
         }
       ]
     }
@@ -3492,6 +3709,10 @@
     },
     "borsh_bytes": {
       "parse": "parse_borsh_bytes",
+      "format": "format_hex"
+    },
+    "bytes32": {
+      "parse": "parse_bytes32",
       "format": "format_hex"
     },
     "memo": {

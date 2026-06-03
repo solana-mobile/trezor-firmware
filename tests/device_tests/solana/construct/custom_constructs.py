@@ -91,6 +91,9 @@ BorshString = Struct("length" / Int32ul, "chars" / PaddedString(this.length, "ut
 # Borsh-encoded byte vector (Vec<u8>): u32 little-endian length + raw bytes (given as hex).
 BorshBytes = Struct("length" / Int32ul, "data" / HexStringAdapter(Bytes(this.length)))
 
+# Fixed 32-byte array (e.g. a hash), given as hex; not length-prefixed.
+Bytes32 = HexStringAdapter(Bytes(32))
+
 
 def OptionalParameter(subcon: Construct):
     return Struct(

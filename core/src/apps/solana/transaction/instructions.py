@@ -25,6 +25,7 @@ from .parse import (
     parse_borsh_bytes,
     parse_borsh_string,
     parse_byte,
+    parse_bytes32,
     parse_memo,
     parse_pubkey,
     parse_string,
@@ -136,6 +137,12 @@ _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_SPENDING_LIMIT = const(819261560033907
 _SQUADS_V4_PROGRAM_ID_INS_BATCH_CREATE = const(17876116467109170882)
 _SQUADS_V4_PROGRAM_ID_INS_BATCH_ADD_TRANSACTION = const(5491654058108281945)
 _SQUADS_V4_PROGRAM_ID_INS_BATCH_EXECUTE_TRANSACTION = const(13036371802110241964)
+_SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_CREATE = const(6421358073665931765)
+_SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_EXTEND = const(10589631805017791974)
+_SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_CLOSE = const(7400004113956648465)
+_SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE_FROM_BUFFER = const(
+    16659085876316681950
+)
 
 COMPUTE_BUDGET_PROGRAM_ID = _COMPUTE_BUDGET_PROGRAM_ID
 COMPUTE_BUDGET_PROGRAM_ID_INS_SET_COMPUTE_UNIT_LIMIT = (
@@ -425,6 +432,26 @@ def __getattr__(name: str) -> Type[Instruction]:
             return (
                 _SQUADS_V4_PROGRAM_ID,
                 _SQUADS_V4_PROGRAM_ID_INS_BATCH_EXECUTE_TRANSACTION,
+            )
+        if name == "SquadsV4ProgramTransactionBufferCreateInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_CREATE,
+            )
+        if name == "SquadsV4ProgramTransactionBufferExtendInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_EXTEND,
+            )
+        if name == "SquadsV4ProgramTransactionBufferCloseInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_CLOSE,
+            )
+        if name == "SquadsV4ProgramVaultTransactionCreateFromBufferInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE_FROM_BUFFER,
             )
         raise AttributeError  # Unknown instruction
 
@@ -1124,6 +1151,46 @@ if TYPE_CHECKING:
         proposal: Account
         batch: Account
         transaction: Account
+
+    class SquadsV4ProgramTransactionBufferCreateInstruction(Instruction):
+        buffer_index: int
+        vault_index: int
+        final_buffer_hash: bytes
+        final_buffer_size: int
+        buffer: bytes
+
+        multisig: Account
+        transaction_buffer: Account
+        creator: Account
+        rent_payer: Account
+        system_program: Account
+
+    class SquadsV4ProgramTransactionBufferExtendInstruction(Instruction):
+        buffer: bytes
+
+        multisig: Account
+        transaction_buffer: Account
+        creator: Account
+
+    class SquadsV4ProgramTransactionBufferCloseInstruction(Instruction):
+
+        multisig: Account
+        transaction_buffer: Account
+        creator: Account
+
+    class SquadsV4ProgramVaultTransactionCreateFromBufferInstruction(Instruction):
+        vault_index: int
+        ephemeral_signers: int
+        transaction_message: bytes
+        memo: str
+
+        multisig: Account
+        transaction: Account
+        creator: Account
+        rent_payer: Account
+        system_program: Account
+        transaction_buffer: Account
+        buffer_creator: Account
 
 
 def get_instruction_id_length(program_id: str) -> int:
@@ -5855,6 +5922,312 @@ def get_instruction(
                     ),
                 ),
                 "Squads V4 Program: Batch Execute Transaction",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_CREATE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_CREATE,
+                (
+                    PropertyTemplate(
+                        "buffer_index",
+                        False,
+                        parse_byte,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "vault_index",
+                        False,
+                        parse_byte,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "final_buffer_hash",
+                        False,
+                        parse_bytes32,
+                        format_hex,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "final_buffer_size",
+                        False,
+                        read_uint16_le,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "buffer",
+                        False,
+                        parse_borsh_bytes,
+                        format_hex,
+                        (),
+                    ),
+                ),
+                5,
+                (
+                    "multisig",
+                    "transaction_buffer",
+                    "creator",
+                    "rent_payer",
+                    "system_program",
+                ),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction_buffer",
+                        "Create transaction buffer",
+                        None,
+                    ),
+                    UIProperty(
+                        "buffer_index",
+                        None,
+                        "Buffer index",
+                        None,
+                    ),
+                    UIProperty(
+                        "vault_index",
+                        None,
+                        "Vault index",
+                        None,
+                    ),
+                    UIProperty(
+                        "final_buffer_hash",
+                        None,
+                        "Final buffer hash",
+                        None,
+                    ),
+                    UIProperty(
+                        "final_buffer_size",
+                        None,
+                        "Final buffer size",
+                        None,
+                    ),
+                    UIProperty(
+                        "buffer",
+                        None,
+                        "Buffer",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "creator",
+                        "Creator",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Transaction Buffer Create",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_EXTEND:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_EXTEND,
+                (
+                    PropertyTemplate(
+                        "buffer",
+                        False,
+                        parse_borsh_bytes,
+                        format_hex,
+                        (),
+                    ),
+                ),
+                3,
+                ("multisig", "transaction_buffer", "creator"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction_buffer",
+                        "Extend transaction buffer",
+                        None,
+                    ),
+                    UIProperty(
+                        "buffer",
+                        None,
+                        "Buffer",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "creator",
+                        "Creator",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Transaction Buffer Extend",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_CLOSE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_CLOSE,
+                (),
+                3,
+                ("multisig", "transaction_buffer", "creator"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction_buffer",
+                        "Close transaction buffer",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "creator",
+                        "Creator",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Transaction Buffer Close",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if (
+            instruction_id
+            == _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE_FROM_BUFFER
+        ):
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE_FROM_BUFFER,
+                (
+                    PropertyTemplate(
+                        "vault_index",
+                        False,
+                        parse_byte,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "ephemeral_signers",
+                        False,
+                        parse_byte,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "transaction_message",
+                        False,
+                        parse_borsh_bytes,
+                        format_hex,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                7,
+                (
+                    "multisig",
+                    "transaction",
+                    "creator",
+                    "rent_payer",
+                    "system_program",
+                    "transaction_buffer",
+                    "buffer_creator",
+                ),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction",
+                        "Create vault transaction",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction_buffer",
+                        "From transaction buffer",
+                        None,
+                    ),
+                    UIProperty(
+                        "vault_index",
+                        None,
+                        "Vault index",
+                        None,
+                    ),
+                    UIProperty(
+                        "ephemeral_signers",
+                        None,
+                        "Ephemeral signers",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "creator",
+                        "Creator",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Vault Transaction Create From Buffer",
                 True,
                 True,
                 False,

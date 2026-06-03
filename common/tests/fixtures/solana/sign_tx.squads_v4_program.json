@@ -769,6 +769,123 @@
       "result": {
         "expected_signature": "f9bc08ad0009a19558a91b53c3a7191b376905031d65cad3dc36e1a0cf1195627601900d6e03860ad5ca7f634bc1e86cd70ac7d4c7b427ca47192dc97e68790d"
       }
+    },
+    {
+      "description": "Transaction Buffer Create",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 2, "readonly_signers": 0, "readonly_non_signers": 3 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv",
+            "EuP1MZP1Y2GMS4PYpqXKzhTcW6QmDJzs7M6w7Mz9zV3F",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 5,
+              "accounts": { "multisig": 3, "transaction_buffer": 2, "creator": 0, "rent_payer": 1, "system_program": 4 },
+              "data": { "instruction_id": 6421358073665931765, "buffer_index": 0, "vault_index": 0, "final_buffer_hash": "11223344556677889900aabbccddeeff00112233445566778899aabbccddeeff", "final_buffer_size": 4, "buffer": { "length": 4, "data": "deadbeef" } }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "f98f1aa1a5bc43613628c30b2fa0d89dac5859eb84fd13f6f7db2c6974d94f76f3fd03a68ed8c0d82dba4094a2479bfbeb3d7c5e12bc6df077bd93573871130b"
+      }
+    },
+    {
+      "description": "Transaction Buffer Extend",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "EuP1MZP1Y2GMS4PYpqXKzhTcW6QmDJzs7M6w7Mz9zV3F",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 3,
+              "accounts": { "multisig": 2, "transaction_buffer": 1, "creator": 0 },
+              "data": { "instruction_id": 10589631805017791974, "buffer": { "length": 4, "data": "deadbeef" } }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "d73508c3d3c5da3ed87eb725e2b2bf20ae1407fac1e1dac9dc22379df438a8dff08a2368d16ec27ac7633a761c7d340f78d73fdf81d81c0d974e07b17e870707"
+      }
+    },
+    {
+      "description": "Transaction Buffer Close",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "EuP1MZP1Y2GMS4PYpqXKzhTcW6QmDJzs7M6w7Mz9zV3F",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 3,
+              "accounts": { "multisig": 2, "transaction_buffer": 1, "creator": 0 },
+              "data": { "instruction_id": 7400004113956648465 }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "22ead33c82862682dbee5c4aa41837449b5855e25e20ee7995c133d76d31406d913c4a5370dc4c26b6562c470bb28ff43d21254e715b03e06f0ac4242cca250f"
+      }
+    },
+    {
+      "description": "Vault Transaction Create From Buffer",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 2, "readonly_signers": 0, "readonly_non_signers": 3 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv",
+            "5RrkX8MTGiSJrqyu7tCcMo3jXf3jxshfeYecHGYojBfV",
+            "EuP1MZP1Y2GMS4PYpqXKzhTcW6QmDJzs7M6w7Mz9zV3F",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 6,
+              "accounts": { "multisig": 4, "transaction": 2, "creator": 0, "rent_payer": 1, "system_program": 5, "transaction_buffer": 3, "buffer_creator": 0 },
+              "data": { "instruction_id": 16659085876316681950, "vault_index": 0, "ephemeral_signers": 0, "transaction_message": { "length": 6, "data": "000000000000" }, "memo": { "is_included": 0 } }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "e17c278fc860a1b10287296cc4300003bfd0efe45dfdb649213ffe61d9fee8a4e20f64d8f9abdb03a2710e756b6f58da64467d16770f46dbcb35846895f5bb09"
+      }
     }
   ]
 }

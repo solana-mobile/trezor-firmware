@@ -21,7 +21,7 @@ def getPythonType(type):
         return "Account"
     elif type in ("string", "memo", "borsh_string"):
         return "str"
-    elif type == "borsh_bytes":
+    elif type in ("borsh_bytes", "bytes32"):
         return "bytes"
     elif type in programs["types"] and programs["types"][type].get("is_enum"):
         return "int"
@@ -61,6 +61,7 @@ from .parse import (
     parse_borsh_bytes,
     parse_borsh_string,
     parse_byte,
+    parse_bytes32,
     parse_memo,
     parse_pubkey,
     parse_string,

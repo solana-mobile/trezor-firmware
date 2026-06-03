@@ -18,6 +18,7 @@ CONSTRUCT_TYPES = {
     "string": "String",
     "borsh_string": "BorshString",
     "borsh_bytes": "BorshBytes",
+    "bytes32": "Bytes32",
     "memo": "Memo",
 }
 
@@ -64,6 +65,7 @@ from construct import (
 from .custom_constructs import (
     BorshBytes,
     BorshString,
+    Bytes32,
     CompactArray,
     CompactStruct,
     HexStringAdapter,
