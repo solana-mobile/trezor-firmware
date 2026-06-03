@@ -124,6 +124,7 @@ _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_REJECT = const(9797135578092158707)
 _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_CANCEL_V2 = const(17802883105040771533)
 _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_EXECUTE = const(12329066433410566338)
 _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE = const(15265763272730540592)
+_SQUADS_V4_PROGRAM_ID_INS_CONFIG_TRANSACTION_EXECUTE = const(2892591877825270386)
 
 COMPUTE_BUDGET_PROGRAM_ID = _COMPUTE_BUDGET_PROGRAM_ID
 COMPUTE_BUDGET_PROGRAM_ID_INS_SET_COMPUTE_UNIT_LIMIT = (
@@ -359,6 +360,11 @@ def __getattr__(name: str) -> Type[Instruction]:
             return (
                 _SQUADS_V4_PROGRAM_ID,
                 _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE,
+            )
+        if name == "SquadsV4ProgramConfigTransactionExecuteInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_CONFIG_TRANSACTION_EXECUTE,
             )
         raise AttributeError  # Unknown instruction
 
@@ -940,6 +946,15 @@ if TYPE_CHECKING:
         creator: Account
         rent_payer: Account
         system_program: Account
+
+    class SquadsV4ProgramConfigTransactionExecuteInstruction(Instruction):
+
+        multisig: Account
+        member: Account
+        proposal: Account
+        transaction: Account
+        rent_payer: Account | None
+        system_program: Account | None
 
 
 def get_instruction_id_length(program_id: str) -> int:
@@ -4888,6 +4903,55 @@ def get_instruction(
                     ),
                 ),
                 "Squads V4 Program: Vault Transaction Create",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_CONFIG_TRANSACTION_EXECUTE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_CONFIG_TRANSACTION_EXECUTE,
+                (),
+                4,
+                (
+                    "multisig",
+                    "member",
+                    "proposal",
+                    "transaction",
+                    "rent_payer",
+                    "system_program",
+                ),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Execute config proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction",
+                        "Config transaction",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "member",
+                        "Member",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Config Transaction Execute",
                 True,
                 True,
                 False,

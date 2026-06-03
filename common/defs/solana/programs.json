@@ -2852,6 +2852,40 @@
               "default_value_to_hide": "signer"
             }
           ]
+        },
+        {
+          "id": "config_transaction_execute",
+          "name": "Config Transaction Execute",
+          "is_multisig": false,
+          "parameters": [],
+          "references": [
+            "multisig",
+            "member",
+            "proposal",
+            "transaction",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 4,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Execute config proposal"
+            },
+            {
+              "account": "transaction",
+              "display_name": "Config transaction"
+            },
+            {
+              "account": "member",
+              "display_name": "Member",
+              "default_value_to_hide": "signer"
+            }
+          ]
         }
       ]
     }

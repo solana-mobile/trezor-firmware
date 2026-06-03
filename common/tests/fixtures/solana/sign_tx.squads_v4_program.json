@@ -377,6 +377,35 @@
       "result": {
         "expected_signature": "616e7659c42385ce8fa0d12003c2cb8a1f7634071802d0e3b50d9b62f48b05e8dee80181d4ae005d9064b3d825eb2a191c8fd75be5bc2567f90c471bf80dea0c"
       }
+    },
+    {
+      "description": "Config Transaction Execute",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "5RrkX8MTGiSJrqyu7tCcMo3jXf3jxshfeYecHGYojBfV",
+            "EuP1MZP1Y2GMS4PYpqXKzhTcW6QmDJzs7M6w7Mz9zV3F",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 4,
+              "accounts": { "multisig": 1, "member": 0, "proposal": 2, "transaction": 3 },
+              "data": { "instruction_id": 2892591877825270386 }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "eaef8a1285b6814db8a206d24ee7dc4d2e7dddbaedd5bc36c413de24c86473c10838aba587fa0867c487278073636514ae36ff863c8fa957fbe6035dae49cf0a"
+      }
     }
   ]
 }

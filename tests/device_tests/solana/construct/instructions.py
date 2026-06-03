@@ -1405,6 +1405,7 @@ class SquadsV4ProgramInstruction(Enum):
     PROPOSAL_CANCEL_V2 = 17802883105040771533
     VAULT_TRANSACTION_EXECUTE = 12329066433410566338
     VAULT_TRANSACTION_CREATE = 15265763272730540592
+    CONFIG_TRANSACTION_EXECUTE = 2892591877825270386
 
 
 SquadsV4Program_ProposalCreate = Struct(
@@ -1520,6 +1521,23 @@ SquadsV4Program_VaultTransactionCreate = Struct(
     ),
 )
 
+SquadsV4Program_ConfigTransactionExecute = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "member" / Byte,
+        "proposal" / Byte,
+        "transaction" / Byte,
+        "rent_payer" / Optional(Byte),
+        "system_program" / Optional(Byte),
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(2892591877825270386, Int64ul),
+    ),
+)
+
 
 SquadsV4Program_Instruction = Select(
     SquadsV4Program_ProposalCreate,
@@ -1529,6 +1547,7 @@ SquadsV4Program_Instruction = Select(
     SquadsV4Program_ProposalCancelV2,
     SquadsV4Program_VaultTransactionExecute,
     SquadsV4Program_VaultTransactionCreate,
+    SquadsV4Program_ConfigTransactionExecute,
 )
 
 # Squads V4 Program end
