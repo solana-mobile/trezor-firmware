@@ -1415,6 +1415,9 @@ class SquadsV4ProgramInstruction(Enum):
     MULTISIG_SET_RENT_COLLECTOR = 5376249923891219504
     SPENDING_LIMIT_USE = 9699369043772979472
     MULTISIG_REMOVE_SPENDING_LIMIT = 8192615600339076836
+    BATCH_CREATE = 17876116467109170882
+    BATCH_ADD_TRANSACTION = 5491654058108281945
+    BATCH_EXECUTE_TRANSACTION = 13036371802110241964
 
 
 SquadsV4Program_ProposalCreate = Struct(
@@ -1690,6 +1693,60 @@ SquadsV4Program_MultisigRemoveSpendingLimit = Struct(
     ),
 )
 
+SquadsV4Program_BatchCreate = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "batch" / Byte,
+        "creator" / Byte,
+        "rent_payer" / Byte,
+        "system_program" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(17876116467109170882, Int64ul),
+        "vault_index" / Byte,
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
+SquadsV4Program_BatchAddTransaction = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "proposal" / Byte,
+        "batch" / Byte,
+        "transaction" / Byte,
+        "member" / Byte,
+        "rent_payer" / Byte,
+        "system_program" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(5491654058108281945, Int64ul),
+        "ephemeral_signers" / Byte,
+        "transaction_message" / BorshBytes,
+    ),
+)
+
+SquadsV4Program_BatchExecuteTransaction = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "member" / Byte,
+        "proposal" / Byte,
+        "batch" / Byte,
+        "transaction" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(13036371802110241964, Int64ul),
+    ),
+)
+
 
 SquadsV4Program_Instruction = Select(
     SquadsV4Program_ProposalCreate,
@@ -1708,6 +1765,9 @@ SquadsV4Program_Instruction = Select(
     SquadsV4Program_MultisigSetRentCollector,
     SquadsV4Program_SpendingLimitUse,
     SquadsV4Program_MultisigRemoveSpendingLimit,
+    SquadsV4Program_BatchCreate,
+    SquadsV4Program_BatchAddTransaction,
+    SquadsV4Program_BatchExecuteTransaction,
 )
 
 # Squads V4 Program end

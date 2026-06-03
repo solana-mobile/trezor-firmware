@@ -677,6 +677,98 @@
       "result": {
         "expected_signature": "e6609b88eacc26bfa47332cf457d08a2148888b5b47ce16c9846448f8cbb64513f54beb675d18cf1b00a073c9458b8f900664fa29e3290c577d0a2cfee032f00"
       }
+    },
+    {
+      "description": "Batch Create",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 2, "readonly_signers": 0, "readonly_non_signers": 2 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 5,
+              "accounts": { "multisig": 3, "batch": 2, "creator": 0, "rent_payer": 1, "system_program": 4 },
+              "data": { "instruction_id": 17876116467109170882, "vault_index": 0, "memo": { "is_included": 0 } }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "d04b98544a0848cfb218c93d508bb8fdbfa0eed16de0ee5c009d485e637642e78bfdb851c185a36ed700a00333378bd1c541ed1e86637bf0d547da4390add508"
+      }
+    },
+    {
+      "description": "Batch Add Transaction",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 2, "readonly_signers": 0, "readonly_non_signers": 4 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "5JFG2EohzNqWHowJ7B4cWqcUStXJVHFFvN1tjL3Pz4Sv",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "5RrkX8MTGiSJrqyu7tCcMo3jXf3jxshfeYecHGYojBfV",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 7,
+              "accounts": { "multisig": 4, "proposal": 5, "batch": 2, "transaction": 3, "member": 0, "rent_payer": 1, "system_program": 6 },
+              "data": { "instruction_id": 5491654058108281945, "ephemeral_signers": 0, "transaction_message": { "length": 4, "data": "deadbeef" } }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "21ba99def90ec42833d055998ff0a9c00baadec68ebe294f769b37d728e8666564a114a91b89c9a488be65772390f0533e65b3190176ff188e66eeaf4acdfe0c"
+      }
+    },
+    {
+      "description": "Batch Execute Transaction",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 3 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "5RrkX8MTGiSJrqyu7tCcMo3jXf3jxshfeYecHGYojBfV",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 5,
+              "accounts": { "multisig": 3, "member": 0, "proposal": 1, "batch": 2, "transaction": 4 },
+              "data": { "instruction_id": 13036371802110241964 }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "f9bc08ad0009a19558a91b53c3a7191b376905031d65cad3dc36e1a0cf1195627601900d6e03860ad5ca7f634bc1e86cd70ac7d4c7b427ca47192dc97e68790d"
+      }
     }
   ]
 }

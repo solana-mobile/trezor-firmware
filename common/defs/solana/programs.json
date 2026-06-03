@@ -3287,6 +3287,155 @@
               "display_name": "Rent collector"
             }
           ]
+        },
+        {
+          "id": "batch_create",
+          "name": "Batch Create",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "vault_index",
+              "type": "u8",
+              "optional": false
+            },
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "batch",
+            "creator",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 5,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "batch",
+              "display_name": "Create batch"
+            },
+            {
+              "parameter": "vault_index",
+              "display_name": "Vault index"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "creator",
+              "display_name": "Creator",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "batch_add_transaction",
+          "name": "Batch Add Transaction",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "ephemeral_signers",
+              "type": "u8",
+              "optional": false
+            },
+            {
+              "name": "transaction_message",
+              "type": "borsh_bytes",
+              "optional": false
+            }
+          ],
+          "references": [
+            "multisig",
+            "proposal",
+            "batch",
+            "transaction",
+            "member",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 7,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "batch",
+              "display_name": "Add to batch"
+            },
+            {
+              "account": "transaction",
+              "display_name": "Batch transaction"
+            },
+            {
+              "parameter": "ephemeral_signers",
+              "display_name": "Ephemeral signers"
+            },
+            {
+              "parameter": "transaction_message",
+              "display_name": "Transaction message"
+            },
+            {
+              "account": "member",
+              "display_name": "Member",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "batch_execute_transaction",
+          "name": "Batch Execute Transaction",
+          "is_multisig": false,
+          "parameters": [],
+          "references": [
+            "multisig",
+            "member",
+            "proposal",
+            "batch",
+            "transaction"
+          ],
+          "references_required": 5,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "batch",
+              "display_name": "Execute batch transaction"
+            },
+            {
+              "account": "transaction",
+              "display_name": "Batch transaction"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Proposal"
+            },
+            {
+              "account": "member",
+              "display_name": "Member",
+              "default_value_to_hide": "signer"
+            }
+          ]
         }
       ]
     }

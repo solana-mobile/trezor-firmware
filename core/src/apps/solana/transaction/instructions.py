@@ -133,6 +133,9 @@ _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_CONFIG_AUTHORITY = const(1677187270231873
 _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_SET_RENT_COLLECTOR = const(5376249923891219504)
 _SQUADS_V4_PROGRAM_ID_INS_SPENDING_LIMIT_USE = const(9699369043772979472)
 _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_SPENDING_LIMIT = const(8192615600339076836)
+_SQUADS_V4_PROGRAM_ID_INS_BATCH_CREATE = const(17876116467109170882)
+_SQUADS_V4_PROGRAM_ID_INS_BATCH_ADD_TRANSACTION = const(5491654058108281945)
+_SQUADS_V4_PROGRAM_ID_INS_BATCH_EXECUTE_TRANSACTION = const(13036371802110241964)
 
 COMPUTE_BUDGET_PROGRAM_ID = _COMPUTE_BUDGET_PROGRAM_ID
 COMPUTE_BUDGET_PROGRAM_ID_INS_SET_COMPUTE_UNIT_LIMIT = (
@@ -410,6 +413,18 @@ def __getattr__(name: str) -> Type[Instruction]:
             return (
                 _SQUADS_V4_PROGRAM_ID,
                 _SQUADS_V4_PROGRAM_ID_INS_MULTISIG_REMOVE_SPENDING_LIMIT,
+            )
+        if name == "SquadsV4ProgramBatchCreateInstruction":
+            return (_SQUADS_V4_PROGRAM_ID, _SQUADS_V4_PROGRAM_ID_INS_BATCH_CREATE)
+        if name == "SquadsV4ProgramBatchAddTransactionInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_BATCH_ADD_TRANSACTION,
+            )
+        if name == "SquadsV4ProgramBatchExecuteTransactionInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_BATCH_EXECUTE_TRANSACTION,
             )
         raise AttributeError  # Unknown instruction
 
@@ -1079,6 +1094,36 @@ if TYPE_CHECKING:
         config_authority: Account
         spending_limit: Account
         rent_collector: Account
+
+    class SquadsV4ProgramBatchCreateInstruction(Instruction):
+        vault_index: int
+        memo: str
+
+        multisig: Account
+        batch: Account
+        creator: Account
+        rent_payer: Account
+        system_program: Account
+
+    class SquadsV4ProgramBatchAddTransactionInstruction(Instruction):
+        ephemeral_signers: int
+        transaction_message: bytes
+
+        multisig: Account
+        proposal: Account
+        batch: Account
+        transaction: Account
+        member: Account
+        rent_payer: Account
+        system_program: Account
+
+    class SquadsV4ProgramBatchExecuteTransactionInstruction(Instruction):
+
+        multisig: Account
+        member: Account
+        proposal: Account
+        batch: Account
+        transaction: Account
 
 
 def get_instruction_id_length(program_id: str) -> int:
@@ -5610,6 +5655,206 @@ def get_instruction(
                     ),
                 ),
                 "Squads V4 Program: Multisig Remove Spending Limit",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_BATCH_CREATE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_BATCH_CREATE,
+                (
+                    PropertyTemplate(
+                        "vault_index",
+                        False,
+                        parse_byte,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                5,
+                ("multisig", "batch", "creator", "rent_payer", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "batch",
+                        "Create batch",
+                        None,
+                    ),
+                    UIProperty(
+                        "vault_index",
+                        None,
+                        "Vault index",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "creator",
+                        "Creator",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Batch Create",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_BATCH_ADD_TRANSACTION:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_BATCH_ADD_TRANSACTION,
+                (
+                    PropertyTemplate(
+                        "ephemeral_signers",
+                        False,
+                        parse_byte,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "transaction_message",
+                        False,
+                        parse_borsh_bytes,
+                        format_hex,
+                        (),
+                    ),
+                ),
+                7,
+                (
+                    "multisig",
+                    "proposal",
+                    "batch",
+                    "transaction",
+                    "member",
+                    "rent_payer",
+                    "system_program",
+                ),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "batch",
+                        "Add to batch",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction",
+                        "Batch transaction",
+                        None,
+                    ),
+                    UIProperty(
+                        "ephemeral_signers",
+                        None,
+                        "Ephemeral signers",
+                        None,
+                    ),
+                    UIProperty(
+                        "transaction_message",
+                        None,
+                        "Transaction message",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "member",
+                        "Member",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Batch Add Transaction",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_BATCH_EXECUTE_TRANSACTION:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_BATCH_EXECUTE_TRANSACTION,
+                (),
+                5,
+                ("multisig", "member", "proposal", "batch", "transaction"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "batch",
+                        "Execute batch transaction",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction",
+                        "Batch transaction",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "member",
+                        "Member",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Batch Execute Transaction",
                 True,
                 True,
                 False,
