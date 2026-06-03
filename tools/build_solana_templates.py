@@ -1,4 +1,5 @@
 # !/usr/bin/env python3
+import hashlib
 import json
 import os
 import subprocess
@@ -21,6 +22,32 @@ TEMPLATES = (
 )
 
 PROGRAMS_JSON = ROOT / "common" / "defs" / "solana" / "programs.json"
+
+
+def resolve_anchor_discriminators(programs: Munch) -> None:
+    """Compute discriminators for Anchor programs.
+
+    For ``"is_anchor": true`` programs the instruction ``id`` is the on-chain
+    (snake_case) name instead of the raw discriminator, which the firmware reads
+    as the little-endian u64 of ``sha256("global:<name>")[:8]``. Storing the name
+    keeps the JSON readable and avoids hand-written discriminator constants.
+    """
+    for program in programs.programs:
+        if not program.get("is_anchor"):
+            continue
+        if program.instruction_id_length != 8:
+            raise click.ClickException(
+                f"{program.name}: is_anchor requires instruction_id_length 8"
+            )
+        for instruction in program.instructions:
+            name = instruction.id
+            if not isinstance(name, str):
+                raise click.ClickException(
+                    f"{program.name} / {instruction.name}: an Anchor instruction id "
+                    f"must be the on-chain name (a string), got {name!r}"
+                )
+            digest = hashlib.sha256(b"global:" + name.encode()).digest()[:8]
+            instruction.id = int.from_bytes(digest, "little")
 
 
 def _silent_call(*args: Any) -> None:
@@ -55,6 +82,7 @@ def render_single(template_path: Path, programs: Munch) -> str:
 def build_templates(check: bool) -> None:
     programs = munchify(json.loads(PROGRAMS_JSON.read_text()))
     assert isinstance(programs, Munch)
+    resolve_anchor_discriminators(programs)
     prog_stat = PROGRAMS_JSON.stat()
 
     all_ok = True

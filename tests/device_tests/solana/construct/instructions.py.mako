@@ -10,10 +10,13 @@ CONSTRUCT_TYPES = {
     "i32": "Int32ul",
     "StakeAuthorize": "Int32ul",
     "u8": "Byte",
+    "bool": "Byte",
     "AuthorityType": "Byte",
     "pubkey": "PublicKey",
     "authority": "PublicKey",
     "string": "String",
+    "borsh_string": "BorshString",
+    "borsh_bytes": "BorshBytes",
     "memo": "Memo",
 }
 
@@ -21,6 +24,7 @@ INSTRUCTION_TYPES = {
     0: "Pass",
     1: "Byte",
     4: "Int32ul",
+    8: "Int64ul",
 }
 
 def upper_snake_case(name):
@@ -56,6 +60,8 @@ from construct import (
     Struct,
 )
 from .custom_constructs import (
+    BorshBytes,
+    BorshString,
     CompactArray,
     CompactStruct,
     HexStringAdapter,

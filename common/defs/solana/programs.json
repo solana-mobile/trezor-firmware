@@ -2551,12 +2551,319 @@
           ]
         }
       ]
+    },
+    {
+      "id": "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf",
+      "name": "Squads V4 Program",
+      "instruction_id_length": 8,
+      "is_anchor": true,
+      "instructions": [
+        {
+          "id": "proposal_create",
+          "name": "Proposal Create",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "transaction_index",
+              "type": "u64",
+              "optional": false
+            },
+            {
+              "name": "draft",
+              "type": "bool",
+              "optional": false
+            }
+          ],
+          "references": [
+            "multisig",
+            "proposal",
+            "creator",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 5,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Proposal"
+            },
+            {
+              "parameter": "transaction_index",
+              "display_name": "Transaction index"
+            },
+            {
+              "parameter": "draft",
+              "display_name": "Draft"
+            },
+            {
+              "account": "creator",
+              "display_name": "Created by",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "proposal_activate",
+          "name": "Proposal Activate",
+          "is_multisig": false,
+          "parameters": [],
+          "references": [
+            "multisig",
+            "member",
+            "proposal"
+          ],
+          "references_required": 3,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Activate proposal"
+            },
+            {
+              "account": "member",
+              "display_name": "Member",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "proposal_approve",
+          "name": "Proposal Approve",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "member",
+            "proposal"
+          ],
+          "references_required": 3,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Approve proposal"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "member",
+              "display_name": "Member",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "proposal_reject",
+          "name": "Proposal Reject",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "member",
+            "proposal"
+          ],
+          "references_required": 3,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Reject proposal"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "member",
+              "display_name": "Member",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "proposal_cancel_v2",
+          "name": "Proposal Cancel V2",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "member",
+            "proposal",
+            "system_program"
+          ],
+          "references_required": 4,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Cancel proposal"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "member",
+              "display_name": "Member",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "vault_transaction_execute",
+          "name": "Vault Transaction Execute",
+          "is_multisig": false,
+          "parameters": [],
+          "references": [
+            "multisig",
+            "proposal",
+            "transaction",
+            "member"
+          ],
+          "references_required": 4,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Execute proposal"
+            },
+            {
+              "account": "transaction",
+              "display_name": "Vault transaction"
+            },
+            {
+              "account": "member",
+              "display_name": "Member",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        },
+        {
+          "id": "vault_transaction_create",
+          "name": "Vault Transaction Create",
+          "is_multisig": false,
+          "parameters": [
+            {
+              "name": "vault_index",
+              "type": "u8",
+              "optional": false
+            },
+            {
+              "name": "ephemeral_signers",
+              "type": "u8",
+              "optional": false
+            },
+            {
+              "name": "transaction_message",
+              "type": "borsh_bytes",
+              "optional": false
+            },
+            {
+              "name": "memo",
+              "type": "borsh_string",
+              "optional": true
+            }
+          ],
+          "references": [
+            "multisig",
+            "transaction",
+            "creator",
+            "rent_payer",
+            "system_program"
+          ],
+          "references_required": 5,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "transaction",
+              "display_name": "Create vault transaction"
+            },
+            {
+              "parameter": "vault_index",
+              "display_name": "Vault index"
+            },
+            {
+              "parameter": "ephemeral_signers",
+              "display_name": "Ephemeral signers"
+            },
+            {
+              "parameter": "transaction_message",
+              "display_name": "Transaction message"
+            },
+            {
+              "parameter": "memo",
+              "display_name": "Memo"
+            },
+            {
+              "account": "creator",
+              "display_name": "Created by",
+              "default_value_to_hide": "signer"
+            },
+            {
+              "account": "rent_payer",
+              "display_name": "Rent payer",
+              "default_value_to_hide": "signer"
+            }
+          ]
+        }
+      ]
     }
   ],
   "types": {
     "u8": {
       "parse": "parse_byte",
       "format": "format_int"
+    },
+    "bool": {
+      "parse": "parse_byte",
+      "format": "format_bool"
     },
     "u32": {
       "parse": "read_uint32_le",
@@ -2590,6 +2897,14 @@
     "string": {
       "parse": "parse_string",
       "format": "format_identity"
+    },
+    "borsh_string": {
+      "parse": "parse_borsh_string",
+      "format": "format_identity"
+    },
+    "borsh_bytes": {
+      "parse": "parse_borsh_bytes",
+      "format": "format_hex"
     },
     "memo": {
       "parse": "parse_memo",

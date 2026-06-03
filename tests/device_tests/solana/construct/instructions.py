@@ -17,6 +17,8 @@ from construct import (
 )
 
 from .custom_constructs import (
+    BorshBytes,
+    BorshString,
     CompactArray,
     CompactStruct,
     HexStringAdapter,
@@ -36,6 +38,7 @@ class Program(Enum):
     ASSOCIATED_TOKEN_ACCOUNT_PROGRAM = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
     MEMO_PROGRAM = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"
     MEMO_LEGACY_PROGRAM = "Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo"
+    SQUADS_V4_PROGRAM = "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
 
 
 # System Program begin
@@ -1391,6 +1394,145 @@ MemoLegacyProgram_Instruction = Select(
 
 # Memo Legacy Program end
 
+# Squads V4 Program begin
+
+
+class SquadsV4ProgramInstruction(Enum):
+    PROPOSAL_CREATE = 11479512855058398428
+    PROPOSAL_ACTIVATE = 7652490544238305803
+    PROPOSAL_APPROVE = 17882343574685885840
+    PROPOSAL_REJECT = 9797135578092158707
+    PROPOSAL_CANCEL_V2 = 17802883105040771533
+    VAULT_TRANSACTION_EXECUTE = 12329066433410566338
+    VAULT_TRANSACTION_CREATE = 15265763272730540592
+
+
+SquadsV4Program_ProposalCreate = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "proposal" / Byte,
+        "creator" / Byte,
+        "rent_payer" / Byte,
+        "system_program" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(11479512855058398428, Int64ul),
+        "transaction_index" / Int64ul,
+        "draft" / Byte,
+    ),
+)
+
+SquadsV4Program_ProposalActivate = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "member" / Byte,
+        "proposal" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(7652490544238305803, Int64ul),
+    ),
+)
+
+SquadsV4Program_ProposalApprove = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "member" / Byte,
+        "proposal" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(17882343574685885840, Int64ul),
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
+SquadsV4Program_ProposalReject = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "member" / Byte,
+        "proposal" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(9797135578092158707, Int64ul),
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
+SquadsV4Program_ProposalCancelV2 = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "member" / Byte,
+        "proposal" / Byte,
+        "system_program" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(17802883105040771533, Int64ul),
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
+SquadsV4Program_VaultTransactionExecute = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "proposal" / Byte,
+        "transaction" / Byte,
+        "member" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(12329066433410566338, Int64ul),
+    ),
+)
+
+SquadsV4Program_VaultTransactionCreate = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "transaction" / Byte,
+        "creator" / Byte,
+        "rent_payer" / Byte,
+        "system_program" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(15265763272730540592, Int64ul),
+        "vault_index" / Byte,
+        "ephemeral_signers" / Byte,
+        "transaction_message" / BorshBytes,
+        "memo" / OptionalParameter(BorshString),
+    ),
+)
+
+
+SquadsV4Program_Instruction = Select(
+    SquadsV4Program_ProposalCreate,
+    SquadsV4Program_ProposalActivate,
+    SquadsV4Program_ProposalApprove,
+    SquadsV4Program_ProposalReject,
+    SquadsV4Program_ProposalCancelV2,
+    SquadsV4Program_VaultTransactionExecute,
+    SquadsV4Program_VaultTransactionCreate,
+)
+
+# Squads V4 Program end
+
 PROGRAMS = {
     "11111111111111111111111111111111": SystemProgram_Instruction,
     "Stake11111111111111111111111111111111111111": StakeProgram_Instruction,
@@ -1400,6 +1542,7 @@ PROGRAMS = {
     "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL": AssociatedTokenAccountProgram_Instruction,
     "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr": MemoProgram_Instruction,
     "Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo": MemoLegacyProgram_Instruction,
+    "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf": SquadsV4Program_Instruction,
 }
 
 UnknownInstruction = Struct(

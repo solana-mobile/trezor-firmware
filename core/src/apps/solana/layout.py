@@ -279,10 +279,10 @@ async def confirm_unsupported_instruction_confirm(
     signer_path: list[int],
     signer_public_key: bytes,
 ) -> None:
-    formatted_instruction_id = (
-        instruction.instruction_id if instruction.instruction_id is not None else "N/A"
-    )
-    title = f"{instruction_index}/{instructions_count}: {instruction.ui_name}: instruction id ({formatted_instruction_id})"
+    # The instruction id is intentionally kept out of the header: Anchor
+    # programs (e.g. Squads) use 8-byte discriminators whose decimal value
+    # overflows the layout. The raw data is available under instruction details.
+    title = f"{instruction_index}/{instructions_count}: {instruction.ui_name}"
 
     return await confirm_unsupported_instruction_details(
         instruction, title, signer_path, signer_public_key

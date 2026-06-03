@@ -10,6 +10,8 @@ from trezor.wire import DataError
 from apps.common.readers import read_uint32_le, read_uint64_le
 
 from ..format import (
+    format_bool,
+    format_hex,
     format_identity,
     format_int,
     format_lamports,
@@ -19,7 +21,14 @@ from ..format import (
 )
 from ..types import PropertyTemplate, UIProperty
 from .instruction import Instruction
-from .parse import parse_byte, parse_memo, parse_pubkey, parse_string
+from .parse import (
+    parse_borsh_bytes,
+    parse_borsh_string,
+    parse_byte,
+    parse_memo,
+    parse_pubkey,
+    parse_string,
+)
 
 if TYPE_CHECKING:
     from typing import Any, Type, TypeGuard
@@ -34,6 +43,7 @@ _TOKEN_2022_PROGRAM_ID = "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
 _ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
 _MEMO_PROGRAM_ID = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"
 _MEMO_LEGACY_PROGRAM_ID = "Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo"
+_SQUADS_V4_PROGRAM_ID = "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
 
 _SYSTEM_PROGRAM_ID_INS_CREATE_ACCOUNT = const(0)
 _SYSTEM_PROGRAM_ID_INS_ASSIGN = const(1)
@@ -107,6 +117,13 @@ _ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID_INS_CREATE_IDEMPOTENT = const(1)
 _ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID_INS_RECOVER_NESTED = const(2)
 _MEMO_PROGRAM_ID_INS_MEMO = None
 _MEMO_LEGACY_PROGRAM_ID_INS_MEMO = None
+_SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_CREATE = const(11479512855058398428)
+_SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_ACTIVATE = const(7652490544238305803)
+_SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_APPROVE = const(17882343574685885840)
+_SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_REJECT = const(9797135578092158707)
+_SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_CANCEL_V2 = const(17802883105040771533)
+_SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_EXECUTE = const(12329066433410566338)
+_SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE = const(15265763272730540592)
 
 COMPUTE_BUDGET_PROGRAM_ID = _COMPUTE_BUDGET_PROGRAM_ID
 COMPUTE_BUDGET_PROGRAM_ID_INS_SET_COMPUTE_UNIT_LIMIT = (
@@ -323,6 +340,26 @@ def __getattr__(name: str) -> Type[Instruction]:
             return (_MEMO_PROGRAM_ID, _MEMO_PROGRAM_ID_INS_MEMO)
         if name == "MemoLegacyProgramMemoInstruction":
             return (_MEMO_LEGACY_PROGRAM_ID, _MEMO_LEGACY_PROGRAM_ID_INS_MEMO)
+        if name == "SquadsV4ProgramProposalCreateInstruction":
+            return (_SQUADS_V4_PROGRAM_ID, _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_CREATE)
+        if name == "SquadsV4ProgramProposalActivateInstruction":
+            return (_SQUADS_V4_PROGRAM_ID, _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_ACTIVATE)
+        if name == "SquadsV4ProgramProposalApproveInstruction":
+            return (_SQUADS_V4_PROGRAM_ID, _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_APPROVE)
+        if name == "SquadsV4ProgramProposalRejectInstruction":
+            return (_SQUADS_V4_PROGRAM_ID, _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_REJECT)
+        if name == "SquadsV4ProgramProposalCancelV2Instruction":
+            return (_SQUADS_V4_PROGRAM_ID, _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_CANCEL_V2)
+        if name == "SquadsV4ProgramVaultTransactionExecuteInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_EXECUTE,
+            )
+        if name == "SquadsV4ProgramVaultTransactionCreateInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE,
+            )
         raise AttributeError  # Unknown instruction
 
     id = get_id(name)
@@ -847,6 +884,63 @@ if TYPE_CHECKING:
 
         signer_accounts: Account | None
 
+    class SquadsV4ProgramProposalCreateInstruction(Instruction):
+        transaction_index: int
+        draft: int
+
+        multisig: Account
+        proposal: Account
+        creator: Account
+        rent_payer: Account
+        system_program: Account
+
+    class SquadsV4ProgramProposalActivateInstruction(Instruction):
+
+        multisig: Account
+        member: Account
+        proposal: Account
+
+    class SquadsV4ProgramProposalApproveInstruction(Instruction):
+        memo: str
+
+        multisig: Account
+        member: Account
+        proposal: Account
+
+    class SquadsV4ProgramProposalRejectInstruction(Instruction):
+        memo: str
+
+        multisig: Account
+        member: Account
+        proposal: Account
+
+    class SquadsV4ProgramProposalCancelV2Instruction(Instruction):
+        memo: str
+
+        multisig: Account
+        member: Account
+        proposal: Account
+        system_program: Account
+
+    class SquadsV4ProgramVaultTransactionExecuteInstruction(Instruction):
+
+        multisig: Account
+        proposal: Account
+        transaction: Account
+        member: Account
+
+    class SquadsV4ProgramVaultTransactionCreateInstruction(Instruction):
+        vault_index: int
+        ephemeral_signers: int
+        transaction_message: bytes
+        memo: str
+
+        multisig: Account
+        transaction: Account
+        creator: Account
+        rent_payer: Account
+        system_program: Account
+
 
 def get_instruction_id_length(program_id: str) -> int:
     if program_id == _SYSTEM_PROGRAM_ID:
@@ -865,6 +959,8 @@ def get_instruction_id_length(program_id: str) -> int:
         return 0
     if program_id == _MEMO_LEGACY_PROGRAM_ID:
         return 0
+    if program_id == _SQUADS_V4_PROGRAM_ID:
+        return 8
 
     return 0
 
@@ -4400,6 +4496,414 @@ def get_instruction(
             (),
             (),
             "Memo Legacy Program",
+            True,
+            False,
+            False,
+            False,
+        )
+    if program_id == _SQUADS_V4_PROGRAM_ID:
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_CREATE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_CREATE,
+                (
+                    PropertyTemplate(
+                        "transaction_index",
+                        False,
+                        read_uint64_le,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "draft",
+                        False,
+                        parse_byte,
+                        format_bool,
+                        (),
+                    ),
+                ),
+                5,
+                ("multisig", "proposal", "creator", "rent_payer", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        "transaction_index",
+                        None,
+                        "Transaction index",
+                        None,
+                    ),
+                    UIProperty(
+                        "draft",
+                        None,
+                        "Draft",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "creator",
+                        "Created by",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Proposal Create",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_ACTIVATE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_ACTIVATE,
+                (),
+                3,
+                ("multisig", "member", "proposal"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Activate proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "member",
+                        "Member",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Proposal Activate",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_APPROVE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_APPROVE,
+                (
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                3,
+                ("multisig", "member", "proposal"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Approve proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "member",
+                        "Member",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Proposal Approve",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_REJECT:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_REJECT,
+                (
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                3,
+                ("multisig", "member", "proposal"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Reject proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "member",
+                        "Member",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Proposal Reject",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_CANCEL_V2:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_PROPOSAL_CANCEL_V2,
+                (
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                4,
+                ("multisig", "member", "proposal", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Cancel proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "member",
+                        "Member",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Proposal Cancel V2",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_EXECUTE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_EXECUTE,
+                (),
+                4,
+                ("multisig", "proposal", "transaction", "member"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Execute proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction",
+                        "Vault transaction",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "member",
+                        "Member",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Vault Transaction Execute",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE,
+                (
+                    PropertyTemplate(
+                        "vault_index",
+                        False,
+                        parse_byte,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "ephemeral_signers",
+                        False,
+                        parse_byte,
+                        format_int,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "transaction_message",
+                        False,
+                        parse_borsh_bytes,
+                        format_hex,
+                        (),
+                    ),
+                    PropertyTemplate(
+                        "memo",
+                        True,
+                        parse_borsh_string,
+                        format_identity,
+                        (),
+                    ),
+                ),
+                5,
+                ("multisig", "transaction", "creator", "rent_payer", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction",
+                        "Create vault transaction",
+                        None,
+                    ),
+                    UIProperty(
+                        "vault_index",
+                        None,
+                        "Vault index",
+                        None,
+                    ),
+                    UIProperty(
+                        "ephemeral_signers",
+                        None,
+                        "Ephemeral signers",
+                        None,
+                    ),
+                    UIProperty(
+                        "transaction_message",
+                        None,
+                        "Transaction message",
+                        None,
+                    ),
+                    UIProperty(
+                        "memo",
+                        None,
+                        "Memo",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "creator",
+                        "Created by",
+                        "signer",
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_payer",
+                        "Rent payer",
+                        "signer",
+                    ),
+                ),
+                "Squads V4 Program: Vault Transaction Create",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        return Instruction(
+            instruction_data,
+            program_id,
+            instruction_accounts,
+            instruction_id,
+            (),
+            0,
+            (),
+            (),
+            "Squads V4 Program",
             True,
             False,
             False,

@@ -57,6 +57,7 @@ def get_amount_and_destination(parameters, instruction):
     "solana/sign_tx.memo_program.json",
     "solana/sign_tx.compute_budget_program.json",
     "solana/sign_tx.token_program.json",
+    "solana/sign_tx.squads_v4_program.json",
     "solana/sign_tx.unknown_instructions.json",
     "solana/sign_tx.predefined_transactions.json",
     "solana/sign_tx.staking_transactions.json",
@@ -155,7 +156,13 @@ def _serialize_tx(tx_construct):
     serialized_instructions = []
     for instruction in tx_construct["instructions"]:
         program = tx_construct["accounts"][instruction["program_index"]]
-        builder = PROGRAMS.get(program, UnknownInstruction)
+        # A raw hex `data` string is serialized as-is via UnknownInstruction,
+        # even for a known program, so a fixture can model an instruction the
+        # firmware does not decode (e.g. an unimplemented Squads instruction).
+        if isinstance(instruction["data"], str):
+            builder = UnknownInstruction
+        else:
+            builder = PROGRAMS.get(program, UnknownInstruction)
         serialized_instruction = builder.build(instruction)
         raw_instruction = RawInstruction.parse(serialized_instruction)
         serialized_instructions.append(raw_instruction)

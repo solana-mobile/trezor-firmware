@@ -12,15 +12,17 @@ def getInstructionIdText(program, instruction):
 def getClassName(program, instruction):
     return program["name"].replace(" ", "") + instruction["name"].replace(" ", "") + "Instruction"
 
-INT_TYPES = ("u8", "u32", "u64", "i32", "i64", "timestamp", "lamports", "token_amount", "unix_timestamp")
+INT_TYPES = ("u8", "u32", "u64", "i32", "i64", "timestamp", "lamports", "token_amount", "unix_timestamp", "bool")
 
 def getPythonType(type):
     if type in INT_TYPES:
         return "int"
     elif type in ("pubkey", "authority"):
         return "Account"
-    elif type in ("string", "memo"):
+    elif type in ("string", "memo", "borsh_string"):
         return "str"
+    elif type == "borsh_bytes":
+        return "bytes"
     elif type in programs["types"] and programs["types"][type].get("is_enum"):
         return "int"
     else:
@@ -45,6 +47,8 @@ from apps.common.readers import read_uint32_le, read_uint64_le
 
 from ..types import PropertyTemplate, UIProperty
 from ..format import (
+    format_bool,
+    format_hex,
     format_int,
     format_lamports,
     format_pubkey,
@@ -54,6 +58,8 @@ from ..format import (
 )
 from .instruction import Instruction
 from .parse import (
+    parse_borsh_bytes,
+    parse_borsh_string,
     parse_byte,
     parse_memo,
     parse_pubkey,
