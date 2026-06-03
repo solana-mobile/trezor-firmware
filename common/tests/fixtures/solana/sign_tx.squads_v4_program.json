@@ -886,6 +886,131 @@
       "result": {
         "expected_signature": "e17c278fc860a1b10287296cc4300003bfd0efe45dfdb649213ffe61d9fee8a4e20f64d8f9abdb03a2710e756b6f58da64467d16770f46dbcb35846895f5bb09"
       }
+    },
+    {
+      "description": "Config Transaction Accounts Close",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 3 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "5RrkX8MTGiSJrqyu7tCcMo3jXf3jxshfeYecHGYojBfV",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 6,
+              "accounts": { "multisig": 4, "proposal": 1, "transaction": 2, "rent_collector": 3, "system_program": 5 },
+              "data": { "instruction_id": 13455472106436610896 }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "e5a3ff7d139f626e10bffc12b6709277da3cb7b21cb9ec681b2581e65758d1d618e471182f91d7747968a44e2baf0cf331eb0a36e529f1b45b2382fa561cf20b"
+      }
+    },
+    {
+      "description": "Vault Transaction Accounts Close",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 3 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "5RrkX8MTGiSJrqyu7tCcMo3jXf3jxshfeYecHGYojBfV",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 6,
+              "accounts": { "multisig": 4, "proposal": 1, "transaction": 2, "rent_collector": 3, "system_program": 5 },
+              "data": { "instruction_id": 11937392256760891332 }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "13ba4567c3be01bd8361f1d01f38eb7523fd9d67c4a75e456463ac6624eddeba381cfe4a8016d6077bd2f2ec5c04cec816fdd8beb5f329a6dade8f4551848b0c"
+      }
+    },
+    {
+      "description": "Vault Batch Transaction Account Close",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 3 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "EuP1MZP1Y2GMS4PYpqXKzhTcW6QmDJzs7M6w7Mz9zV3F",
+            "5RrkX8MTGiSJrqyu7tCcMo3jXf3jxshfeYecHGYojBfV",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 7,
+              "accounts": { "multisig": 5, "proposal": 1, "batch": 2, "transaction": 3, "rent_collector": 4, "system_program": 6 },
+              "data": { "instruction_id": 17825604122730238598 }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "1b69195e3fb965ac9ba9ad50da02eca6a438019fe6d03cd62ba336fd8fc8ecb59c244a560c03db2a2828b09ce62ededdbc17407e33f6fd061fca73588c883b09"
+      }
+    },
+    {
+      "description": "Batch Accounts Close",
+      "parameters": {
+        "address": "m/44'/501'/0'/0'",
+        "construct": {
+          "version": null,
+          "header": { "signers": 1, "readonly_signers": 0, "readonly_non_signers": 3 },
+          "accounts": [
+            "14CCvQzQzHCVgZM3j9soPnXuJXh1RmCfwLVUcdfbZVBS",
+            "E9yCRPT8A2AyuEaMPwk2Mi9iJFDoQVMoExyYvKQuNhyN",
+            "EuP1MZP1Y2GMS4PYpqXKzhTcW6QmDJzs7M6w7Mz9zV3F",
+            "AeDJ1BqA7ruBbd6mEcS1QNxFbT8FQbiBVuN9NqK94Taq",
+            "3JUnusNfX8BZx6Gio4kLx1JHg9mHodSW9NbSnqwYwk1s",
+            "11111111111111111111111111111111",
+            "SQDS4ep65T869zMMBKyuUq6aD6EgTu8psMjkvj52pCf"
+          ],
+          "blockhash": "2p4rYZAaFfV5Uk5ugdG5KPNty9Uda9B3b4gWB8qnNqak",
+          "instructions": [
+            {
+              "program_index": 6,
+              "accounts": { "multisig": 4, "proposal": 1, "batch": 2, "rent_collector": 3, "system_program": 5 },
+              "data": { "instruction_id": 18377895415883744474 }
+            }
+          ],
+          "luts": []
+        }
+      },
+      "result": {
+        "expected_signature": "6c74dbfd94e3459e2251edb7986ed28ebb4b7a769f66cc46d87fbb1259c756a8c1b66669d349a8d855d0f9964f8ffd99a4cccdb0f01a5f8db8d88782d1413c06"
+      }
     }
   ]
 }

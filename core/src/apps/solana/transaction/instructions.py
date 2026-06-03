@@ -143,6 +143,14 @@ _SQUADS_V4_PROGRAM_ID_INS_TRANSACTION_BUFFER_CLOSE = const(7400004113956648465)
 _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE_FROM_BUFFER = const(
     16659085876316681950
 )
+_SQUADS_V4_PROGRAM_ID_INS_CONFIG_TRANSACTION_ACCOUNTS_CLOSE = const(
+    13455472106436610896
+)
+_SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_ACCOUNTS_CLOSE = const(11937392256760891332)
+_SQUADS_V4_PROGRAM_ID_INS_VAULT_BATCH_TRANSACTION_ACCOUNT_CLOSE = const(
+    17825604122730238598
+)
+_SQUADS_V4_PROGRAM_ID_INS_BATCH_ACCOUNTS_CLOSE = const(18377895415883744474)
 
 COMPUTE_BUDGET_PROGRAM_ID = _COMPUTE_BUDGET_PROGRAM_ID
 COMPUTE_BUDGET_PROGRAM_ID_INS_SET_COMPUTE_UNIT_LIMIT = (
@@ -452,6 +460,26 @@ def __getattr__(name: str) -> Type[Instruction]:
             return (
                 _SQUADS_V4_PROGRAM_ID,
                 _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_CREATE_FROM_BUFFER,
+            )
+        if name == "SquadsV4ProgramConfigTransactionAccountsCloseInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_CONFIG_TRANSACTION_ACCOUNTS_CLOSE,
+            )
+        if name == "SquadsV4ProgramVaultTransactionAccountsCloseInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_ACCOUNTS_CLOSE,
+            )
+        if name == "SquadsV4ProgramVaultBatchTransactionAccountCloseInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_VAULT_BATCH_TRANSACTION_ACCOUNT_CLOSE,
+            )
+        if name == "SquadsV4ProgramBatchAccountsCloseInstruction":
+            return (
+                _SQUADS_V4_PROGRAM_ID,
+                _SQUADS_V4_PROGRAM_ID_INS_BATCH_ACCOUNTS_CLOSE,
             )
         raise AttributeError  # Unknown instruction
 
@@ -1191,6 +1219,39 @@ if TYPE_CHECKING:
         system_program: Account
         transaction_buffer: Account
         buffer_creator: Account
+
+    class SquadsV4ProgramConfigTransactionAccountsCloseInstruction(Instruction):
+
+        multisig: Account
+        proposal: Account
+        transaction: Account
+        rent_collector: Account
+        system_program: Account
+
+    class SquadsV4ProgramVaultTransactionAccountsCloseInstruction(Instruction):
+
+        multisig: Account
+        proposal: Account
+        transaction: Account
+        rent_collector: Account
+        system_program: Account
+
+    class SquadsV4ProgramVaultBatchTransactionAccountCloseInstruction(Instruction):
+
+        multisig: Account
+        proposal: Account
+        batch: Account
+        transaction: Account
+        rent_collector: Account
+        system_program: Account
+
+    class SquadsV4ProgramBatchAccountsCloseInstruction(Instruction):
+
+        multisig: Account
+        proposal: Account
+        batch: Account
+        rent_collector: Account
+        system_program: Account
 
 
 def get_instruction_id_length(program_id: str) -> int:
@@ -6228,6 +6289,205 @@ def get_instruction(
                     ),
                 ),
                 "Squads V4 Program: Vault Transaction Create From Buffer",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if (
+            instruction_id
+            == _SQUADS_V4_PROGRAM_ID_INS_CONFIG_TRANSACTION_ACCOUNTS_CLOSE
+        ):
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_CONFIG_TRANSACTION_ACCOUNTS_CLOSE,
+                (),
+                5,
+                (
+                    "multisig",
+                    "proposal",
+                    "transaction",
+                    "rent_collector",
+                    "system_program",
+                ),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction",
+                        "Close config transaction",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_collector",
+                        "Rent collector",
+                        None,
+                    ),
+                ),
+                "Squads V4 Program: Config Transaction Accounts Close",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_ACCOUNTS_CLOSE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_VAULT_TRANSACTION_ACCOUNTS_CLOSE,
+                (),
+                5,
+                (
+                    "multisig",
+                    "proposal",
+                    "transaction",
+                    "rent_collector",
+                    "system_program",
+                ),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction",
+                        "Close vault transaction",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_collector",
+                        "Rent collector",
+                        None,
+                    ),
+                ),
+                "Squads V4 Program: Vault Transaction Accounts Close",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if (
+            instruction_id
+            == _SQUADS_V4_PROGRAM_ID_INS_VAULT_BATCH_TRANSACTION_ACCOUNT_CLOSE
+        ):
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_VAULT_BATCH_TRANSACTION_ACCOUNT_CLOSE,
+                (),
+                6,
+                (
+                    "multisig",
+                    "proposal",
+                    "batch",
+                    "transaction",
+                    "rent_collector",
+                    "system_program",
+                ),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "transaction",
+                        "Close batch transaction",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "batch",
+                        "Batch",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_collector",
+                        "Rent collector",
+                        None,
+                    ),
+                ),
+                "Squads V4 Program: Vault Batch Transaction Account Close",
+                True,
+                True,
+                False,
+                False,
+                None,
+            )
+        if instruction_id == _SQUADS_V4_PROGRAM_ID_INS_BATCH_ACCOUNTS_CLOSE:
+            return Instruction(
+                instruction_data,
+                program_id,
+                instruction_accounts,
+                _SQUADS_V4_PROGRAM_ID_INS_BATCH_ACCOUNTS_CLOSE,
+                (),
+                5,
+                ("multisig", "proposal", "batch", "rent_collector", "system_program"),
+                (
+                    UIProperty(
+                        None,
+                        "multisig",
+                        "Multisig",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "batch",
+                        "Close batch",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "proposal",
+                        "Proposal",
+                        None,
+                    ),
+                    UIProperty(
+                        None,
+                        "rent_collector",
+                        "Rent collector",
+                        None,
+                    ),
+                ),
+                "Squads V4 Program: Batch Accounts Close",
                 True,
                 True,
                 False,

@@ -1423,6 +1423,10 @@ class SquadsV4ProgramInstruction(Enum):
     TRANSACTION_BUFFER_EXTEND = 10589631805017791974
     TRANSACTION_BUFFER_CLOSE = 7400004113956648465
     VAULT_TRANSACTION_CREATE_FROM_BUFFER = 16659085876316681950
+    CONFIG_TRANSACTION_ACCOUNTS_CLOSE = 13455472106436610896
+    VAULT_TRANSACTION_ACCOUNTS_CLOSE = 11937392256760891332
+    VAULT_BATCH_TRANSACTION_ACCOUNT_CLOSE = 17825604122730238598
+    BATCH_ACCOUNTS_CLOSE = 18377895415883744474
 
 
 SquadsV4Program_ProposalCreate = Struct(
@@ -1824,6 +1828,71 @@ SquadsV4Program_VaultTransactionCreateFromBuffer = Struct(
     ),
 )
 
+SquadsV4Program_ConfigTransactionAccountsClose = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "proposal" / Byte,
+        "transaction" / Byte,
+        "rent_collector" / Byte,
+        "system_program" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(13455472106436610896, Int64ul),
+    ),
+)
+
+SquadsV4Program_VaultTransactionAccountsClose = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "proposal" / Byte,
+        "transaction" / Byte,
+        "rent_collector" / Byte,
+        "system_program" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(11937392256760891332, Int64ul),
+    ),
+)
+
+SquadsV4Program_VaultBatchTransactionAccountClose = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "proposal" / Byte,
+        "batch" / Byte,
+        "transaction" / Byte,
+        "rent_collector" / Byte,
+        "system_program" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(17825604122730238598, Int64ul),
+    ),
+)
+
+SquadsV4Program_BatchAccountsClose = Struct(
+    "program_index" / Byte,
+    "accounts"
+    / CompactStruct(
+        "multisig" / Byte,
+        "proposal" / Byte,
+        "batch" / Byte,
+        "rent_collector" / Byte,
+        "system_program" / Byte,
+    ),
+    "data"
+    / CompactStruct(
+        "instruction_id" / Const(18377895415883744474, Int64ul),
+    ),
+)
+
 
 SquadsV4Program_Instruction = Select(
     SquadsV4Program_ProposalCreate,
@@ -1849,6 +1918,10 @@ SquadsV4Program_Instruction = Select(
     SquadsV4Program_TransactionBufferExtend,
     SquadsV4Program_TransactionBufferClose,
     SquadsV4Program_VaultTransactionCreateFromBuffer,
+    SquadsV4Program_ConfigTransactionAccountsClose,
+    SquadsV4Program_VaultTransactionAccountsClose,
+    SquadsV4Program_VaultBatchTransactionAccountClose,
+    SquadsV4Program_BatchAccountsClose,
 )
 
 # Squads V4 Program end

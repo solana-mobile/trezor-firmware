@@ -3653,6 +3653,139 @@
               "default_value_to_hide": "signer"
             }
           ]
+        },
+        {
+          "id": "config_transaction_accounts_close",
+          "name": "Config Transaction Accounts Close",
+          "is_multisig": false,
+          "parameters": [],
+          "references": [
+            "multisig",
+            "proposal",
+            "transaction",
+            "rent_collector",
+            "system_program"
+          ],
+          "references_required": 5,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "transaction",
+              "display_name": "Close config transaction"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Proposal"
+            },
+            {
+              "account": "rent_collector",
+              "display_name": "Rent collector"
+            }
+          ]
+        },
+        {
+          "id": "vault_transaction_accounts_close",
+          "name": "Vault Transaction Accounts Close",
+          "is_multisig": false,
+          "parameters": [],
+          "references": [
+            "multisig",
+            "proposal",
+            "transaction",
+            "rent_collector",
+            "system_program"
+          ],
+          "references_required": 5,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "transaction",
+              "display_name": "Close vault transaction"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Proposal"
+            },
+            {
+              "account": "rent_collector",
+              "display_name": "Rent collector"
+            }
+          ]
+        },
+        {
+          "id": "vault_batch_transaction_account_close",
+          "name": "Vault Batch Transaction Account Close",
+          "is_multisig": false,
+          "parameters": [],
+          "references": [
+            "multisig",
+            "proposal",
+            "batch",
+            "transaction",
+            "rent_collector",
+            "system_program"
+          ],
+          "references_required": 6,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "transaction",
+              "display_name": "Close batch transaction"
+            },
+            {
+              "account": "batch",
+              "display_name": "Batch"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Proposal"
+            },
+            {
+              "account": "rent_collector",
+              "display_name": "Rent collector"
+            }
+          ]
+        },
+        {
+          "id": "batch_accounts_close",
+          "name": "Batch Accounts Close",
+          "is_multisig": false,
+          "parameters": [],
+          "references": [
+            "multisig",
+            "proposal",
+            "batch",
+            "rent_collector",
+            "system_program"
+          ],
+          "references_required": 5,
+          "ui_properties": [
+            {
+              "account": "multisig",
+              "display_name": "Multisig"
+            },
+            {
+              "account": "batch",
+              "display_name": "Close batch"
+            },
+            {
+              "account": "proposal",
+              "display_name": "Proposal"
+            },
+            {
+              "account": "rent_collector",
+              "display_name": "Rent collector"
+            }
+          ]
         }
       ]
     }
