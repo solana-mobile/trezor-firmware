@@ -6,6 +6,7 @@ from construct import (
     Construct,
     GreedyString,
     If,
+    Int32ul,
     Int64ul,
     Optional,
     PaddedString,
@@ -83,6 +84,12 @@ class HexStringAdapter(Adapter):
 Memo = GreedyString("utf8")
 
 String = Struct("length" / Int64ul, "chars" / PaddedString(this.length, "utf-8"))
+
+# Borsh-encoded string used by Anchor-based programs: u32 little-endian length + UTF-8 bytes.
+BorshString = Struct("length" / Int32ul, "chars" / PaddedString(this.length, "utf-8"))
+
+# Borsh-encoded byte vector (Vec<u8>): u32 little-endian length + raw bytes (given as hex).
+BorshBytes = Struct("length" / Int32ul, "data" / HexStringAdapter(Bytes(this.length)))
 
 
 def OptionalParameter(subcon: Construct):

@@ -38,5 +38,15 @@ def format_int(value: int) -> str:
     return str(value)
 
 
+def format_bool(value: int) -> str:
+    return "true" if value else "false"
+
+
+def format_hex(value: bytes) -> str:
+    from ubinascii import hexlify
+
+    return hexlify(value).decode()
+
+
 def format_identity(value: str) -> str:
     return value

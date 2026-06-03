@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from apps.common.readers import read_uint64_le
+from apps.common.readers import read_uint32_le, read_uint64_le
 
 if TYPE_CHECKING:
     from trezor.utils import BufferReader
@@ -38,6 +38,18 @@ def parse_string(serialized_tx: BufferReader) -> str:
     # TODO SOL: validation shall be checked (length is less than 2^32 or even less)
     length = read_uint64_le(serialized_tx)
     return bytes(serialized_tx.read_memoryview(length)).decode("utf-8")
+
+
+def parse_borsh_string(serialized_tx: BufferReader) -> str:
+    # Borsh-encoded strings use a u32 little-endian length prefix.
+    length = read_uint32_le(serialized_tx)
+    return bytes(serialized_tx.read_memoryview(length)).decode("utf-8")
+
+
+def parse_borsh_bytes(serialized_tx: BufferReader) -> bytes:
+    # Borsh-encoded byte vectors (Vec<u8>) use a u32 little-endian length prefix.
+    length = read_uint32_le(serialized_tx)
+    return bytes(serialized_tx.read_memoryview(length))
 
 
 def parse_memo(serialized_tx: BufferReader) -> str:
